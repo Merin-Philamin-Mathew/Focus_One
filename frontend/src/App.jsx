@@ -1,4 +1,5 @@
-git 
+import SamplePage from "./pages/SamplePage";
+
 function App() {
   return (
     <SamplePage/>
@@ -6,4 +7,3 @@ function App() {
 }
 
 export default App;
-
