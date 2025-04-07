@@ -1,4 +1,5 @@
-git 
+import SamplePage from "./pages/SamplePage";
+
 function App() {
   return (
     <SamplePage/>
