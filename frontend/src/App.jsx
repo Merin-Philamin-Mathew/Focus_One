@@ -1,18 +1,10 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import SamplePage from "./pages/SamplePage";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <h2>FOCUSONE</h2>
-      </div>
-    </>
-  )
+    <SamplePage/>
+  );
 }
 
-export default App
+export default App;
+
