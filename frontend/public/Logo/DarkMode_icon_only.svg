@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60">
+  <!-- Main Circle -->
+  <circle cx="30" cy="30" r="25" fill="url(#logoGradient)"/>
+  
+  <!-- Inner Focus Circle -->
+  <circle cx="30" cy="30" r="12.5" fill="white" fill-opacity="0.3" stroke="white" stroke-width="2.5"/>
+  
+  <!-- Center Focus Point -->
+  <circle cx="30" cy="30" r="4" fill="white"/>
+  
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" /> <!-- primary-600 -->
+      <stop offset="50%" stop-color="#38bdf8" /> <!-- primary-400 -->
+      <stop offset="100%" stop-color="#34d399" /> <!-- accent-400 -->
+    </linearGradient>
+  </defs>
+</svg>

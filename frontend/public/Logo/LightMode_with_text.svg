@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+  <!-- Main Circle -->
+  <circle cx="30" cy="30" r="20" fill="url(#logoGradient)"/>
+  
+  <!-- Inner Focus Circle -->
+  <circle cx="30" cy="30" r="10" fill="white" fill-opacity="0.3" stroke="white" stroke-width="2"/>
+  
+  <!-- Center Focus Point -->
+  <circle cx="30" cy="30" r="3" fill="white"/>
+  
+  <!-- Text -->
+  <text x="58" y="35" font-family="Poppins, sans-serif" font-size="22" font-weight="600" fill="#334155">
+    Focus<tspan fill="url(#textGradient)">One</tspan>
+  </text>
+  
+  <!-- Gradient Definitions -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0369a1" /> <!-- primary-700 -->
+      <stop offset="50%" stop-color="#0ea5e9" /> <!-- primary-500 -->
+      <stop offset="100%" stop-color="#10b981" /> <!-- accent-500 -->
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0ea5e9" /> <!-- primary-500 -->
+      <stop offset="100%" stop-color="#10b981" /> <!-- accent-500 -->
+    </linearGradient>
+  </defs>
+</svg>
