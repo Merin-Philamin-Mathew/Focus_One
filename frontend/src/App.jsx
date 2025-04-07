@@ -1,16 +1,9 @@
-
-import './App.css'
-
+git 
 function App() {
-
-
   return (
-    <>
-      <div>
-        <h2>FOCUSONE</h2>
-      </div>
-    </>
-  )
+    <SamplePage/>
+  );
 }
 
-export default App
+export default App;
+
