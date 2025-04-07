@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom';
 import { FaMoon, FaSun, FaUser, FaLock } from 'react-icons/fa';
 import Logo from '../Logo/Logo';
+import {useDispatch, useSelector} from 'react-redux'
+import { toggleDarkMode } from '../../features/user/userSlice';
 
 const Login = () => {
-  const [darkMode, setDarkMode] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    if (!darkMode) {
+  const dispatch = useDispatch()
+  const darkMode = useSelector((state)=>state.user.darkMode)
+
+  useEffect(()=>{
+    if (darkMode) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-  };
+  }, [darkMode])
+
+  console.log(darkMode, 'darkmode')
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,7 +33,7 @@ const Login = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-secondary-50 dark:bg-dark-300 px-4">
       <div className="absolute top-4 right-4">
         <button 
-          onClick={toggleDarkMode} 
+          onClick={()=>{dispatch(toggleDarkMode())}} 
           className="p-2 rounded-full hover:bg-secondary-200 dark:hover:bg-dark-200 transition-colors"
           aria-label="Toggle dark mode"
         >
@@ -60,7 +65,7 @@ const Login = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full py-2 px-4 pl-10 bg-secondary-50 dark:bg-dark-100 border border-secondary-300 dark:border-dark-100 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-600 dark:focus:border-primary-600 shadow-inner-soft"
+                  className="w-full py-2 px-4 pl-10 bg-secondary-50 outline-none dark:bg-dark-100 border border-secondary-300 dark:border-dark-100 rounded-lg focus:ring-0.5 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-600 dark:focus:border-primary-600 shadow-inner-soft"
                   placeholder="you@example.com"
                   required
                 />
@@ -80,7 +85,7 @@ const Login = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full py-2 px-4 pl-10 bg-secondary-50 dark:bg-dark-100 border border-secondary-300 dark:border-dark-100 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-600 dark:focus:border-primary-600 shadow-inner-soft"
+                  className="w-full py-2 px-4 pl-10 outline-none bg-secondary-50 dark:bg-dark-100 border border-secondary-300 dark:border-dark-100 rounded-lg focus:ring-0.5 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-600 dark:focus:border-primary-600 shadow-inner-soft"
                   placeholder="••••••••"
                   required
                 />
