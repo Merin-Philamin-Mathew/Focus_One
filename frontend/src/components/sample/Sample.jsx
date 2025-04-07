@@ -1,9 +1,12 @@
 import React from 'react'
+import SamplePage from '../../pages/SamplePage'
+import LoginPage from '../../pages/LoginPage'
 
 function Sample() {
   return (
     <div>
-      <h1>Sample</h1>
+      <SamplePage/>
+      {/* <LoginPage/> */}
     </div>
   )
 }
