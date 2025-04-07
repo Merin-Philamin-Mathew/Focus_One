@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 # Create your models here.
 
@@ -11,7 +12,7 @@ class Habits(models.Model):
     active status, created time and updated time.
     '''
     habit_name = models.CharField(max_length=100, blank=False, null=False)
-    creator_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='habits', blank=False)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='habits', blank=False)
     is_public = models.BooleanField(default=False, blank=False, null=False)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -21,3 +22,45 @@ class Habits(models.Model):
         return self.habit_name
     
 
+class Task(models.Model):
+    '''
+    Represents each task that comes under the Habit model. 
+    It contains task_name, habit_id(references Habit model),
+    user_id (references User model),
+    amount_of_work field represents how much did the user put 
+    effort to do the task. It might be the measuremnt of time or quantity of what he did,
+    unit field to represent the SI unit of the amount of works done,
+    is_completed field to represent whether the task is completed or not,
+    created_at field to represent the task created date and time,
+    updated_at field to represent the task updated date and time.
+    '''
+    task_name = models.CharField(max_length=100, blank=False, null=False)
+    habit = models.ForeignKey(Habits, on_delete=models.CASCADE, blank=False, null=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False, null=False)
+    amount_of_work = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    unit = models.CharField(max_length=20, blank=False, null=False)
+    is_completed = models.BooleanField(default=False, blank=False, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if self.is_completed and not self.completed_at:
+            self.completed_at = timezone.now()
+        elif not self.is_completed:
+            self.completed_at = None  
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.task_name
+
+class FocusSession(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, blank=False, null=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False, null=False)
+    start_time = models.DateTimeField()
+    pause_time = models.DateTimeField(blank=True, null=True)
+    resume_time = models.DateTimeField(blank=True, null=True)
+    end_time = models.DateTimeField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.user.first_name} - {self.task.task_name} session"
