@@ -1,4 +1,3 @@
-import './App.css'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import UserRoutes from './routes/userRoute'
 import Sample from './components/sample/sample'
