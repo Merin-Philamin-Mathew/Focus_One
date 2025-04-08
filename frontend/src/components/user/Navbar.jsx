@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 function Navbar() {
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.user.darkMode);
+  const user = useSelector(state=>state.user.userDetails)
 
   useEffect(() => {
     if (darkMode) {
@@ -22,8 +23,19 @@ function Navbar() {
         <div className="container mx-auto px-4 py-2 flex justify-between items-center">
           <Logo className="h-14 transition-all hover:scale-105" />
           <div className="flex items-center space-x-6">
-            <Link to={'/signin'} className="py-2 px-4 rounded-md hover:bg-secondary-200 dark:hover:bg-dark-100 border-secondary-900 dark:border-secondary-400 text-secondary-900 dark:text-secondary-500">Login</Link>
-            <Link to={'/signup'} className="bg-primary-600 py-2 px-6 rounded-md text-sm font-heading text-secondary-50">Get Started</Link>
+            {user?
+              (
+                <>
+                  <div className="w-8 h-8 rounded-full bg-primary-300 flex items-center justify-center text-white font-bold cursor-pointer">
+                    {user.first_name?.charAt(0).toUpperCase()}
+                  </div>  
+                </>
+              ) :
+              <>
+                <Link to={'/signin'} className="py-2 px-4 rounded-md hover:bg-secondary-200 dark:hover:bg-dark-100 border-secondary-900 dark:border-secondary-400 text-secondary-900 dark:text-secondary-500">Login</Link>
+                <Link to={'/signup'} className="bg-primary-600 py-2 px-6 rounded-md text-sm font-heading text-secondary-50">Get Started</Link>
+              </>
+            }
             <button
               className="theme-toggle"
               onClick={() => {

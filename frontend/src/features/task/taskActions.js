@@ -1,7 +1,6 @@
 // taskActions.js
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from '../../apis/axios';
-import URLS from "../../apis/urls";
 
 // Fetch current active task for the user
 export const fetchCurrentTask = createAsyncThunk(
