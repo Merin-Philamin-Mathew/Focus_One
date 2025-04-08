@@ -11,7 +11,7 @@ class Habits(models.Model):
     a public field to specify whether the task is publically available or not, 
     active status, created time and updated time.
     '''
-    habit_name = models.CharField(max_length=100, blank=False, null=False)
+    habit_name = models.CharField(max_length=100, blank=False, null=False, db_index=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user', blank=False)
     is_public = models.BooleanField(default=False, blank=False, null=False)
     hidden_for = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='hidden_habits', blank=True)
