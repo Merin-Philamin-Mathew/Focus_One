@@ -142,4 +142,18 @@ class OnGoingTaskView(APIView):
             return Response({'message': 'No ongoing task found'}, status=status.HTTP_200_OK)
         serializer = TaskSerializer(ongoing_task, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-        
+
+class SearchHabitView(APIView):
+    '''
+    SearchHabitView is to fetch habits based on user search
+    '''
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def post(self, request):
+        search_term = request.data.get("query","").strip()
+        if not search_term:
+            return Response({'error':'search_term is empty'}, status=status.HTTP_400_BAD_REQUEST)
+        habits = Habits.objects.filter(habit_name__istartswith=search_term, is_active=True, is_public=True).exclude(hidden_for=request.user)
+        serializer = HabitSerializer(habits, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
