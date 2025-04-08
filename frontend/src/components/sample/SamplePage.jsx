@@ -315,7 +315,7 @@ const SamplePage = () => {
           </div>
         )}
         
-        {/* Habit Calendar Section */}
+        Habit Calendar Section
         <section className="mt-12">
           <div className="card">
             <div className="flex justify-between items-center mb-6">
