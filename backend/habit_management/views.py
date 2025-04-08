@@ -135,9 +135,9 @@ class OnGoingTaskView(APIView):
     '''
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
-    def get(self, request, pk):
+    def get(self, request):
         try:
-            ongoing_task = Task.objects.select_related('habit').get(pk=pk, user=request.user, is_completed=False)
+            ongoing_task = Task.objects.select_related('habit').get(user=request.user, is_completed=False)
         except Task.DoesNotExist:
             return Response({'message': 'No ongoing task found'}, status=status.HTTP_200_OK)
         serializer = TaskSerializer(ongoing_task, many=True)
