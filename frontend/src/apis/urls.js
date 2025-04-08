@@ -6,3 +6,5 @@ const URLS = {
         'google-login':'/auth/google-login/'     
     },
 }
+
+export default URLS
