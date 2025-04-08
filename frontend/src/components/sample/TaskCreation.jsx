@@ -15,7 +15,6 @@ const TaskCreation = () => {
   });
   const [timerInterval, setTimerInterval] = useState(null);
 
-  // Dummy data for habits
   const dummyHabits = [
     { id: 1, name: 'Study', color: 'bg-primary-500' },
     { id: 2, name: 'Exercise', color: 'bg-accent-500' },
@@ -165,7 +164,7 @@ const TaskCreation = () => {
                     filteredHabits.map(habit => (
                       <div 
                         key={habit.id}
-                        className="flex items-center p-2 hover:bg-secondary-50 dark:hover:bg-dark-200 rounded cursor-pointer"
+                        className="flex items-center p-2 hover:bg-secondary-50 dark:hover:bg-dark-200 dark:text-secodnary-50 rounded cursor-pointer"
                         onClick={() => selectHabit(habit)}
                       >
                         <div className={`w-3 h-3 rounded-full ${habit.color} mr-2`}></div>
@@ -181,7 +180,7 @@ const TaskCreation = () => {
               {/* Selected habit display */}
               {selectedHabit && (
                 <div className="mt-3 flex items-center">
-                  <span className="text-sm font-medium mr-2">Selected:</span>
+                  <span className="text-sm font-medium mr-2 dark:text-secondary-300" >Selected:</span>
                   <div className={`badge ${selectedHabit.color} text-white px-3 py-1 flex items-center`}>
                     {selectedHabit.name}
                     <button 
