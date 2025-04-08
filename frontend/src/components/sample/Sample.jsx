@@ -5,8 +5,8 @@ import LoginPage from '../../pages/LoginPage'
 function Sample() {
   return (
     <div>
-      <SamplePage/>
-      {/* <LoginPage/> */}
+      {/* <SamplePage/> */}
+      <LoginPage/>
     </div>
   )
 }
