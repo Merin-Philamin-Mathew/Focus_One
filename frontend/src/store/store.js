@@ -1,24 +1,25 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import userReducer from '../features/user/userSlice';
+import taskReducer from '../features/task/taskSlice';
 
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 
-const persistConfig = {
-    key: 'root',
+const userPersistConfig  = {
+    key: 'user',
     storage,
+    blacklist: ['loading', 'success', 'error', 'message'],
   }
 
 const rootReducer = combineReducers({
-    user: userReducer,
+    user: persistReducer(userPersistConfig, userReducer),
+    tasks: taskReducer
 })
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 
 const store = configureStore({
-    reducer: persistedReducer
+    reducer: rootReducer
 })
 
 export default store;

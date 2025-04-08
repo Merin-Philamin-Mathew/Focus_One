@@ -13,6 +13,10 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 from datetime import timedelta
 from pathlib import Path
@@ -28,10 +32,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = True
+# DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
 
 AUTH_USER_MODEL = 'authentication.User'
@@ -78,14 +83,14 @@ REST_FRAMEWORK = {
 
 
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000",  
-#     "http://localhost:5173",  
-#     "http://127.0.0.1:3000",
-#     "http://127.0.0.1:5173",
-# ]
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
-CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS").split(",")
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  
+    "http://localhost:5173",  
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5173",
+]
+# CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
+# CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS").split(",")
 
 CORS_ALLOW_HEADERS = [
     'accept',
@@ -225,3 +230,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',  
+    },
+}
