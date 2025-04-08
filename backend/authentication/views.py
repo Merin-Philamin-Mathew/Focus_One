@@ -32,13 +32,18 @@ class RegisterViewSet(viewsets.ViewSet):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
+            user_data = {
+                "id": user.id,
+                "email": user.email,
+                "first_name": user.first_name,
+            }
+
+            # Add last_name only if it exists
+            if user.last_name:
+                user_data["last_name"] = user.last_name
+
             return Response({
-                "user":{
-                    "id":user.id,
-                    "email":user.email,
-                    "first_name":user.first_name,
-                    "last_name":user.last_name,
-                },
+                "user": user_data,
                 "message": "User Created Successfully"
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
