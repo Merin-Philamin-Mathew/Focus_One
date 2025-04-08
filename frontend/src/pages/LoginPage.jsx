@@ -3,9 +3,7 @@ import Login from '../components/user/Login'
 
 function LoginPage() {
   return (
-    <div>
-      <Login/>
-    </div>
+    <Login/>
   )
 }
 
