@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin } from "./userActions";
+import { userLogin, userSignup } from "./userActions";
 import { handleRejected } from "../utils";
 
 const initialState = {
@@ -8,6 +8,7 @@ const initialState = {
     loading: false,
     success: false,
     error: '',
+    message: '',
     darkMode: false,
 }
 
@@ -23,9 +24,6 @@ const userSlice = createSlice({
             state.success = false;
             state.error = '';
         },
-        setDarkMode: (state, action)=>{
-            state.darkMode = action.payload;
-        },
         toggleDarkMode: (state) =>{
             state.darkMode = !state.darkMode
         }
@@ -35,13 +33,22 @@ const userSlice = createSlice({
         .addCase(userLogin.pending, handlePending)
         .addCase(userLogin.rejected, handleRejected)
         .addCase(userLogin.fulfilled, (state, action)=>{
+            const { access, ...user } = action?.payload.data;
             state.success = true;
             state.loading = false;
-            state.userDetails = action?.payload?.data;
+            state.message = action?.payload?.message
+            state.accesstoken = access
+            state.userDetails = user
+        })
+        .addCase(userSignup.pending, handlePending)
+        .addCase(userSignup.rejected, handleRejected)
+        .addCase(userSignup.fulfilled, (state, action)=>{
+            state.success = true;
+            state.pending = true;
         })
     }
 })
 
-export const {resetAll, setDarkMode, toggleDarkMode} = userSlice.actions;
+export const {resetAll, toggleDarkMode} = userSlice.actions;
 export default userSlice.reducer;
 
