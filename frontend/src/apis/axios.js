@@ -7,4 +7,7 @@ const axiosInstance = axios.create({
     withCredentials: true 
 });
 
+
+
 export {BASE_URL, axiosInstance}
+
