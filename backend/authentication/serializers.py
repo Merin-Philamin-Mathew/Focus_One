@@ -26,7 +26,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         validators=[RegexValidator(r'^[a-zA-Z]+$', 'First name must contain only letters.')]
     )
     last_name = serializers.CharField(
-        required=True,
+        required=False,  
+        allow_blank=True,
         validators=[RegexValidator(r'^[a-zA-Z]+$', 'Last name must contain only letters.')]
     )
 
