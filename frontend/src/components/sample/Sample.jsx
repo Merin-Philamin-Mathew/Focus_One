@@ -8,7 +8,7 @@ function Sample() {
   return (
     <div>
       {/* <SamplePage/> */}
-      {/* <LoginPage/> */}'
+      {/* <LoginPage/> */}
        <Sample2/>
     </div>
   )

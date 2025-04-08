@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {axiosInstance} from '../../apis/axios'
-import { AUTHENTICATION } from "../../apis/urls";
+import { AUTHENTICATION, TASK_URLS } from "../../apis/urls";
 
 export const userLogin = createAsyncThunk('userLogin', async (data, {rejectWithValue})=>{
     try{
@@ -20,3 +20,4 @@ export const userSignup = createAsyncThunk('userSignup', async (data, {rejectWit
         return rejectWithValue(error?.response?.data)
     }
 })
+
