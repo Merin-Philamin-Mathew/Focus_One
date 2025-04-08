@@ -14,6 +14,7 @@ class HabitListCreateView(APIView):
 
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+
     def get(self, request):
         habits = Habits.objects.filter(created_by=request.user, is_active=True).exclude(hidden_for=request.user)
         serializer = HabitSerializer(habits, many=True)
@@ -102,6 +103,7 @@ class TaskRetrieveUpdateDestroyView(APIView):
     '''
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+
     def get(self, request, pk):
         try:
             task = Task.objects.select_related('habit').get(pk=pk, user=request.user)
@@ -135,6 +137,7 @@ class OnGoingTaskView(APIView):
     '''
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+    
     def get(self, request):
         try:
             ongoing_task = Task.objects.select_related('habit').get(user=request.user, is_completed=False)
