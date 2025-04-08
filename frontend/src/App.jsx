@@ -1,16 +1,19 @@
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import UserRoutes from './routes/userRoute'
+import Sample from './components/sample/sample'
 
-import './App.css'
 
 function App() {
-
-
   return (
     <>
-      <div>
-        <h2>FOCUSONE</h2>
-      </div>
+      <Router>
+        <Routes>
+          <Route path='/*' element={<UserRoutes />}/>
+          <Route path='sample/' element={<Sample />}/>
+        </Routes>
+      </Router>
     </>
   )
 }
 
-export default App
+export default App;
