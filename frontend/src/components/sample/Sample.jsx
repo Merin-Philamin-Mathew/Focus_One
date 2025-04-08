@@ -1,6 +1,6 @@
 import React from 'react'
-import SamplePage from '../../pages/SamplePage'
 import LoginPage from '../../pages/LoginPage'
+import SamplePage from './SamplePage'
 
 function Sample() {
   return (
