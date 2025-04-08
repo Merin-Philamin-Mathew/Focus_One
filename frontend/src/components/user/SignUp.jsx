@@ -3,9 +3,9 @@ import { FaLock, FaMoon, FaSun, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { toggleDarkMode } from "../../../features/user/userSlice";
-import Logo from "../../Logo/Logo";
-import InputField from "./InputField";
+import { toggleDarkMode } from "../../features/user/userSlice";
+import Logo from "../Logo/Logo";
+import InputField from "../utils/InputField";
 
 function SignUp() {
   const dispatch = useDispatch();

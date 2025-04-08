@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Sample = () => {
+const SamplePage = () => {
   // This would normally come from your backend/state
   const [currentTask, setCurrentTask] = useState(null);
   const [categories, setCategories] = useState([
@@ -366,4 +366,4 @@ const Sample = () => {
   );
 };
 
-export default Sample;
+export default SamplePage;
