@@ -58,6 +58,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.ModelSerializer):
+
     email = serializers.EmailField(required=True)
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
 
@@ -74,7 +75,7 @@ class LoginSerializer(serializers.ModelSerializer):
             user = authenticate(request=self.context.get('request'),username=email, password=password )
 
             if not user:
-                raise serializers.ValidationError(_("Invalid email or password"), code='authorizatoin')
+                raise serializers.ValidationError(_("Invalid email or password"), code='authorization')
             
             if not user.is_active:
                 raise serializers.ValidationError(_('User account is disabled.'), code='authorization')
