@@ -4,8 +4,8 @@ import Logo from '../Logo/Logo';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleDarkMode } from '../../features/user/userSlice';
 import { userLogin } from '../../features/user/userActions';
-import InputField from './Signup/InputField';
 import { Link } from 'react-router-dom';
+import InputField from '../utils/InputField';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -108,7 +108,7 @@ const Login = () => {
             Welcome Back
           </h1>
           <p className="text-center text-secondary-500 dark:text-secondary-400 mb-6">
-            Sign in to <span className="bg-gradient-to-r from-primary-500 to-accent-500 bg-clip-text text-transparent font-medium">FocusOne</span>
+            Sign In to <span className="bg-gradient-to-r from-primary-500 to-accent-500 bg-clip-text text-transparent font-medium">FocusOne</span>
           </p>
           
           <form onSubmit={handleSubmit} className="">
