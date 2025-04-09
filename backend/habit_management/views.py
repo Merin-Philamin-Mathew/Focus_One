@@ -22,10 +22,11 @@ class HabitListCreateView(APIView):
     
     def post(self, request):
         habit_name = request.data.get('habit_name')
+        is_public = request.data.get('is_public')
         if not habit_name:
             return Response({"error":"habit_name field is required"}, status=status.HTTP_400_BAD_REQUEST)
         try:
-            existing_habit = Habits.objects.get(habit_name=habit_name, created_by=request.user)
+            existing_habit = Habits.objects.get(habit_name=habit_name, created_by=request.user, is_active=True)
             if request.user in existing_habit.hidden_for.all():
                 existing_habit.hidden_for.remove(request.user)
                 serializer = HabitSerializer(existing_habit)
@@ -39,7 +40,9 @@ class HabitListCreateView(APIView):
         serializer = HabitSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(created_by=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            if is_public:
+                return Response({"message": "Habit created but you can't set habit as public. By default it will be private", "data": serializer.data},status=status.HTTP_201_CREATED)
+            return Response({"data":serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class HabitRetrieveUpdateDestroyView(APIView):
@@ -58,6 +61,9 @@ class HabitRetrieveUpdateDestroyView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def patch(self, request, pk):
+        is_public = request.data.get('is_public')
+        if is_public:
+            return Response({"error":"you can't update is_public field"}, status=status.HTTP_400_BAD_REQUEST)
         try:
             habit = Habits.objects.get(pk=pk, created_by=request.user)
         except Habits.DoesNotExist:
@@ -148,15 +154,37 @@ class OnGoingTaskView(APIView):
 
 class SearchHabitView(APIView):
     '''
-    SearchHabitView is to fetch habits based on user search
+    Search habits for a user:
+    - Prefer user's own habit (even if private).
+    - Else fallback to public admin-created habits.
     '''
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
     def post(self, request):
-        search_term = request.data.get("query","").strip()
+        search_term = request.data.get("query", "").strip()
         if not search_term:
-            return Response({'error':'search_term is empty'}, status=status.HTTP_400_BAD_REQUEST)
-        habits = Habits.objects.filter(habit_name__istartswith=search_term, is_active=True, is_public=True).exclude(hidden_for=request.user)
-        serializer = HabitSerializer(habits, many=True)
+            return Response({'error': 'search_term is empty'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Find habits matching search (and not hidden)
+        matching_habits = Habits.objects.filter(
+            habit_name__icontains=search_term,
+            is_active=True
+        ).exclude(hidden_for=request.user)
+
+        # Prepare result dictionary to avoid duplicates by name
+        final_habits = {}
+
+        for habit in matching_habits:
+            key = habit.habit_name.strip().lower()
+
+            # If user created it, prefer it
+            if habit.created_by == request.user:
+                final_habits[key] = habit
+
+            # If not already added, and it's public (fallback)
+            elif key not in final_habits and habit.is_public:
+                final_habits[key] = habit
+
+        serializer = HabitSerializer(final_habits.values(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
