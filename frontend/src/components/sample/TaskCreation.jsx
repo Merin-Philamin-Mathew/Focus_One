@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import {  CheckCircle, Clock, X, Pause, Play } from 'lucide-react';
 import HabitSearching from './HabitSearching';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSearchedHabits } from '../../features/task/taskActions';
 
 const TaskCreation = () => {
   // States for task creation flow
@@ -117,9 +116,6 @@ const TaskCreation = () => {
 
   return (
     <div className="max-w-lg mx-auto px-4">
-        <button 
-        onClick={()=>{console.log('clickkkkk'); dispatch(fetchSearchedHabits('re'))}}
-        >click</button>
       {currentStep === 'create' && (
         <div className="card mt-8">
           <h2 className="text-2xl font-bold mb-6 text-center">Create Your Task</h2>

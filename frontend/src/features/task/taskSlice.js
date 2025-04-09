@@ -21,8 +21,8 @@ const taskSlice = createSlice({
             state.success = false;
             state.error = '';
         },
-        setSelectedHabit: (state)=>{
-            state.selectedHabit = state.data
+        setSelectedHabit: (state,action)=>{            
+            state.selectedHabit = action.payload
         }
     },
 
