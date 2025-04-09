@@ -108,7 +108,7 @@ function HabitSearching() {
           {/* Recent or suggested habits chips */}
           {!isDropdownOpen && (
             <div className="flex flex-wrap gap-2 mt-2">
-              {['Reading', 'Exercise', 'Coding', 'Meditation'].map((suggestion, index) => (
+              {['Read', 'Exercise', 'Coding', 'Meditation'].map((suggestion, index) => (
                 <button
                   key={index}
                   className="group flex items-center rounded-full border border-secondary-200 dark:border-secondary-700 px-3 py-1.5 text-sm transition-all hover:bg-secondary-50 dark:hover:bg-dark-100"
