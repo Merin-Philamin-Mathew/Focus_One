@@ -1,8 +1,11 @@
+/* index.css */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 @layer base {
   html {
@@ -128,3 +131,4 @@
     @apply absolute inset-0 bg-gradient-to-b from-transparent to-secondary-900 opacity-20 pointer-events-none content-[''] dark:to-dark-500 dark:opacity-30;
   }
 }
+
