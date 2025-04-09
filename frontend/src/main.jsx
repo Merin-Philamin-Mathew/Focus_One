@@ -5,12 +5,16 @@ import {Provider} from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import store, { persistor } from './store/store.js'
 import './apis/axios_interceptor';
-
+import { ToastProvider } from './components/utils/toasts/Toast.jsx'
+import { SonnerToaster, toastCss } from './components/utils/toasts/Sonner.jsx'
 createRoot(document.getElementById('root')).render(
 
     <Provider store={store}>
+      <ToastProvider>
+        <SonnerToaster/>
       <PersistGate loading={null} persistor={persistor}>
         <App />
       </PersistGate>
+      </ToastProvider>
     </Provider>
 )
