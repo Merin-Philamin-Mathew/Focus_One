@@ -98,6 +98,7 @@ const Login = () => {
       password: formData.password
     })).finally(() => {
       setIsSubmitting(false);
+      dispatch(resetAll())
     });
   };
 
