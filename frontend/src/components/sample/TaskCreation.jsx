@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import {  CheckCircle, Clock, X, Pause, Play } from 'lucide-react';
 import HabitSearching from './HabitSearching';
-import { useDispatch } from 'react-redux';
-import { fetchSearchedHabits } from '../../features/task/taskActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedHabit } from '../../features/task/taskSlice';
 
 const TaskCreation = () => {
   // States for task creation flow
   const [currentStep, setCurrentStep] = useState('create'); // 'create', 'active', 'focus'
-  const [selectedHabit, setSelectedHabit] = useState(null);
+  const { selectedHabit} = useSelector((state) => state.tasks);
   const [subTopic, setSubTopic] = useState('');
   const [timer, setTimer] = useState({
     seconds: 0,
@@ -117,16 +117,13 @@ const TaskCreation = () => {
 
   return (
     <div className="max-w-lg mx-auto px-4">
-        <button 
-        onClick={()=>{console.log('clickkkkk'); dispatch(fetchSearchedHabits('re'))}}
-        >click</button>
       {currentStep === 'create' && (
         <div className="card mt-8">
           <h2 className="text-2xl font-bold mb-6 text-center">Create Your Task</h2>
           
           <form onSubmit={createTask}>
             {/* Habit Selection */}
-            <HabitSearching selectHabit={selectedHabit} setSelectedHabit={setSelectedHabit} />
+            <HabitSearching/>
             
             {/* Subtopic/Task Name */}
             <div className="mb-6">
@@ -136,7 +133,7 @@ const TaskCreation = () => {
               <input
                 type="text"
                 id="subtopic"
-                className="form-input"
+                className="form-input px-3 py-2"
                 placeholder="What specifically will you work on?"
                 value={subTopic}
                 onChange={(e) => setSubTopic(e.target.value)}

@@ -5,6 +5,7 @@ import {Provider} from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import store, { persistor } from './store/store.js'
 import './apis/axios_interceptor';
+
 createRoot(document.getElementById('root')).render(
 
     <Provider store={store}>

@@ -11,10 +11,15 @@ const userPersistConfig  = {
     storage,
     blacklist: ['loading', 'success', 'error', 'message'],
   }
+const taskPersistConfig  = {
+    key: 'task',
+    storage,
+    blacklist: ['loading', 'success', 'error', 'message'],
+  }
 
 const rootReducer = combineReducers({
     user: persistReducer(userPersistConfig, userReducer),
-    tasks: taskReducer
+    tasks: persistReducer(taskPersistConfig, taskReducer)
 })
 
 

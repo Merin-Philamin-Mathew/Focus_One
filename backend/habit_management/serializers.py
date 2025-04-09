@@ -10,6 +10,7 @@ class HabitSerializer(serializers.ModelSerializer):
         model = Habits
         fields = ['id','habit_name','created_by','is_public','is_active','created_at','updated_at']
         extra_kwargs = {
+            'is_public':{'read_only':True},
             'created_by':{'read_only':True},
             'created_at': {'read_only':True},
             'updated_at': {'read_only':True}

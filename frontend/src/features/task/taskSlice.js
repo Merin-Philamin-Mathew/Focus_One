@@ -1,18 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchSearchedHabits } from "./taskActions";
-import { handleRejected } from "../utils";
+import { handlePending, handleRejected } from "../utils";
 
 const initialState = {
-    accesstoken : '',
-    userDetails:'',
+    searchedHabits: [],
+    selectedHabit: '',
+
     loading: false,
     success: false,
     error: '',
-    darkMode: false,
+    message: '',
 }
-
-const handlePending = (state) => { state.loading = true };
-
 
 const taskSlice = createSlice({
     name: 'task',
@@ -23,16 +21,27 @@ const taskSlice = createSlice({
             state.success = false;
             state.error = '';
         },
-        setDarkMode: (state, action)=>{
-            state.darkMode = action.payload;
-        },
-        toggleDarkMode: (state) =>{
-            state.darkMode = !state.darkMode
+        setSelectedHabit: (state,action)=>{            
+            state.selectedHabit = action.payload
         }
     },
 
+    extraReducers(builder){
+            builder
+            .addCase(fetchSearchedHabits.pending, handlePending)
+            .addCase(fetchSearchedHabits.rejected, handleRejected)
+            .addCase(fetchSearchedHabits.fulfilled, (state, action)=>{
+                const response = action?.payload;
+                state.success = true;
+                state.loading = false;
+                state.message = action?.payload?.message
+                state.searchedHabits= response
+            })
+            
+        }
+
 })
 
-export const {resetAll, setDarkMode, toggleDarkMode} = taskSlice.actions;
+export const {resetAll,setSelectedHabit} = taskSlice.actions;
 export default taskSlice.reducer;
 

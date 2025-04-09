@@ -8,6 +8,4 @@ const axiosInstance = axios.create({
 });
 
 
-
 export {BASE_URL, axiosInstance}
-
