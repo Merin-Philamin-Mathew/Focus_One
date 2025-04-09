@@ -14,7 +14,7 @@ const userPersistConfig  = {
 const taskPersistConfig  = {
     key: 'task',
     storage,
-    blacklist: ['loading', 'success', 'error', 'message'],
+    blacklist: ['loading', 'success', 'error', 'message', 'searchedHabits'],
   }
 
 const rootReducer = combineReducers({

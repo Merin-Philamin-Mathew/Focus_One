@@ -128,12 +128,12 @@ const TaskCreation = () => {
             {/* Subtopic/Task Name */}
             <div className="mb-6">
               <label htmlFor="subtopic" className="block text-sm font-medium mb-2 text-secondary-700 dark:text-secondary-300">
-                Task Details
+                Task Name
               </label>
               <input
                 type="text"
                 id="subtopic"
-                className="form-input px-3 py-2"
+                className="form-input px-3 py-2 focus:border-secondary-400"
                 placeholder="What specifically will you work on?"
                 value={subTopic}
                 onChange={(e) => setSubTopic(e.target.value)}
