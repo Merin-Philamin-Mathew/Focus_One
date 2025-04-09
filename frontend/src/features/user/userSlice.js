@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userLogin, userSignup } from "./userActions";
-import { handleRejected } from "../utils";
+import { handlePending, handleRejected } from "../utils";
 
 const initialState = {
     accesstoken : '',
@@ -11,8 +11,6 @@ const initialState = {
     message: '',
     darkMode: false,
 }
-
-const handlePending = (state) => { state.loading = true };
 
 
 const userSlice = createSlice({
