@@ -4,7 +4,6 @@ import taskReducer from '../features/task/taskSlice';
 
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import { setStore } from '../apis/axios';
 
 
 const userPersistConfig  = {
@@ -22,8 +21,6 @@ const rootReducer = combineReducers({
 const store = configureStore({
     reducer: rootReducer
 })
-
-setStore(store);
 
 export default store;
 export const persistor = persistStore(store);
