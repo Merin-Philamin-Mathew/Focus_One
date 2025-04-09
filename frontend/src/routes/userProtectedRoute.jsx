@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { resetAll } from '../features/user/userSlice';
 
 function ProtectedRoute({children}) {
@@ -11,12 +11,11 @@ function ProtectedRoute({children}) {
 
   console.log(userDetails, 'userrr')
 
-  useEffect(()=>{
-    if (!userDetails || userDetails === null || userDetails === undefined){
-      dispatch(resetAll())
-      navigate('/signin')
-    }
-  })
+  if (!userDetails || userDetails === null || userDetails === undefined){
+    dispatch(resetAll());
+    return <Navigate to="/signin" />;
+  }
+
   return children;
 }
 

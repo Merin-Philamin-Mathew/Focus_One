@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userLogin, userSignup } from "./userActions";
-import { handleRejected } from "../utils";
+import { handlePending, handleRejected } from "../utils";
 
 const initialState = {
-    accesstoken : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0MTc3MTg5LCJpYXQiOjE3NDQxNzM1ODksImp0aSI6ImY5ZjkzMDdiMzhmYzQ5OTk5NzJjZTE3Y2M2ZTViYjFiIiwidXNlcl9pZCI6NH0.sZbEL7Z50QuybfMrpfVSrepA3IF-Jblr8-1hHCtIDbs',
+    accesstoken : '',
     userDetails:'',
     loading: false,
     success: false,
@@ -11,8 +11,6 @@ const initialState = {
     message: '',
     darkMode: false,
 }
-
-const handlePending = (state) => { state.loading = true };
 
 
 const userSlice = createSlice({
