@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import {  CheckCircle, Clock, X, Pause, Play } from 'lucide-react';
 import HabitSearching from './HabitSearching';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchSearchedHabits } from '../../features/task/taskActions';
 
 const TaskCreation = () => {
   // States for task creation flow
   const [currentStep, setCurrentStep] = useState('create'); // 'create', 'active', 'focus'
-  const [selectedHabit, setSelectedHabit] = useState(null);
+  const { selectedHabit} = useSelector((state) => state.tasks);
   const [subTopic, setSubTopic] = useState('');
   const [timer, setTimer] = useState({
     seconds: 0,
@@ -126,7 +126,7 @@ const TaskCreation = () => {
           
           <form onSubmit={createTask}>
             {/* Habit Selection */}
-            <HabitSearching selectHabit={selectedHabit} setSelectedHabit={setSelectedHabit} />
+            <HabitSearching/>
             
             {/* Subtopic/Task Name */}
             <div className="mb-6">
