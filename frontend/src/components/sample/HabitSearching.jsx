@@ -41,7 +41,7 @@ function HabitSearching() {
       name: habit.habit_name,
       color: getHabitColor(habit.id), // Function to assign color based on habit ID
     };
-    
+    console.log('formatted Habit',formattedHabit)
     dispatch(setSelectedHabit(formattedHabit))
     setHabitSearch('');
   };
