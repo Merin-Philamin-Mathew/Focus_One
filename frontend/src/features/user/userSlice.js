@@ -3,7 +3,7 @@ import { userLogin, userSignup } from "./userActions";
 import { handlePending, handleRejected } from "../utils";
 
 const initialState = {
-    accesstoken : '',
+    accesstoken : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0MTQyNjM2LCJpYXQiOjE3NDQxMzkwMzYsImp0aSI6IjVhNDBlMDA0MzYyNzQyNjI5Mjg5NTgzMGI4Yzg0YjYxIiwidXNlcl9pZCI6Mn0.8UKP8S-3Aa5QV0rlzf014_pV8vnNsf5UPSkmhvaKwhE',
     userDetails:'',
     loading: false,
     success: false,
