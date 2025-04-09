@@ -2,22 +2,45 @@ import React, { useEffect, useState } from "react";
 import { FaLock, FaMoon, FaSun, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { toggleDarkMode } from "../../features/user/userSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { resetAll, toggleDarkMode } from "../../features/user/userSlice";
 import Logo from "../Logo/Logo";
 import InputField from "../utils/InputField";
+import { userSignup } from "../../features/user/userActions";
 
 function SignUp() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const darkMode = useSelector((state) => state.user.darkMode);
+  const loading = useSelector(state=>state.user.loading)
+  const error = useSelector(state=>state.user.error)
+  const success = useSelector(state=>state.user.success)
+
   const [formData, setFormData] = useState({
-    username: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
     confirmPassword: ""
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  console.log(success, 'success', error)
+
+  useEffect(()=>{
+    if(success){
+      navigate('/signin')
+      dispatch(resetAll())
+    }
+    if(error){
+      console.log(error, 'error sign up')
+      if (typeof error === 'object') {
+        setErrors(error);
+      }
+    }
+  }, [error, success])
 
   useEffect(() => {
     if (darkMode) {
@@ -45,12 +68,19 @@ function SignUp() {
 
   const validateForm = () => {
     const newErrors = {};
+    const nameRegex = /^[a-zA-Z]+$/;
     
     // Username validation
-    if (!formData.username.trim()) {
-      newErrors.username = "Username is required";
-    } else if (formData.username.length < 3) {
-      newErrors.username = "Username must be at least 3 characters";
+    if (!formData.first_name.trim()) {
+      newErrors.first_name = "First Name is required";
+    } else if (!nameRegex.test(formData.first_name)) {
+      newErrors.first_name = "First name must contain only letters";
+    }
+
+    if (!formData.last_name.trim()) {
+      newErrors.last_name = "Last Name is required";
+    } else if (!nameRegex.test(formData.last_name)) {
+      newErrors.last_name = "Last name must contain only letters";
     }
     
     // Email validation
@@ -65,6 +95,16 @@ function SignUp() {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 8) {
       newErrors.password = "Password must be at least 8 characters";
+    } else {
+      if (!/[A-Z]/.test(formData.password)) {
+        newErrors.password = "Password must contain at least one uppercase letter";
+      } else if (!/[a-z]/.test(formData.password)) {
+        newErrors.password = "Password must contain at least one lowercase letter";
+      } else if (!/\d/.test(formData.password)) {
+        newErrors.password = "Password must contain at least one digit";
+      } else if (!/[@$!%*?&._#^()\-+=]/.test(formData.password)) {
+        newErrors.password = "Password must contain at least one special character";
+      }
     }
     
     // Confirm password validation
@@ -94,6 +134,8 @@ function SignUp() {
       // Here you would typically call your authentication API
       setIsSubmitting(false);
     }, 1000);
+
+    dispatch(userSignup(formData))
   };
 
   return (
@@ -130,17 +172,29 @@ function SignUp() {
           </p>
 
           <form onSubmit={handleSubmit} className="">
-            <InputField
-              id="username"
-              label="Username"
-              type="text"
-              value={formData.username}
-              onChange={handleChange}
-              placeholder="johndoe"
-              icon={FaUser}
-              error={errors.username}
-              darkMode={darkMode}
-            />
+            <div className="w-full flex gap-4 ">
+              <InputField
+                id="first_name"
+                label="First Name"
+                type="text"
+                value={formData.first_name}
+                onChange={handleChange}
+                icon={FaUser}
+                error={errors.first_name}
+                darkMode={darkMode}
+              />
+
+              <InputField
+                id="last_name"
+                label="Last Name"
+                type="text"
+                value={formData.last_name}
+                onChange={handleChange}
+                // icon={FaUser}
+                error={errors.last_name}
+                darkMode={darkMode}
+              />
+            </div>
             
             <InputField
               id="email"
@@ -184,7 +238,7 @@ function SignUp() {
                 disabled={isSubmitting}
                 className="w-full py-3 px-4 bg-gradient-to-r from-primary-600 to-accent-600 hover:from-primary-700 hover:to-accent-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
               >
-                {isSubmitting ? (
+                {loading ? (
                   <>
                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

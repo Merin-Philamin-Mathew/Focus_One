@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin } from "./userActions";
-import { handleRejected } from "../utils";
+import { userLogin, userLogout, userSignup } from "./userActions";
+import { handlePending, handleRejected } from "../utils";
 
 const initialState = {
     accesstoken : '',
@@ -8,10 +8,9 @@ const initialState = {
     loading: false,
     success: false,
     error: '',
+    message: '',
     darkMode: false,
 }
-
-const handlePending = (state) => { state.loading = true };
 
 
 const userSlice = createSlice({
@@ -23,8 +22,14 @@ const userSlice = createSlice({
             state.success = false;
             state.error = '';
         },
-        setDarkMode: (state, action)=>{
-            state.darkMode = action.payload;
+        Logout: (state)=>{
+            state.loading = false;
+            state.success = false;
+            state.message= '';
+            state.error= '';
+            state.accesstoken= '';
+            state.darkMode= '';
+            state.userDetails= '';
         },
         toggleDarkMode: (state) =>{
             state.darkMode = !state.darkMode
@@ -35,13 +40,26 @@ const userSlice = createSlice({
         .addCase(userLogin.pending, handlePending)
         .addCase(userLogin.rejected, handleRejected)
         .addCase(userLogin.fulfilled, (state, action)=>{
+            const { access, ...user } = action?.payload.data;
             state.success = true;
             state.loading = false;
-            state.userDetails = action?.payload?.data;
+            state.message = action?.payload?.message
+            state.accesstoken = access
+            state.userDetails = user
+        })
+        .addCase(userSignup.pending, handlePending)
+        .addCase(userSignup.rejected, handleRejected)
+        .addCase(userSignup.fulfilled, (state, action)=>{
+            state.success = true;
+            state.pending = false;
+        })
+        .addCase(userLogout.fulfilled, (state)=>{
+            state.success = true;
+            state.pending = false;
         })
     }
 })
 
-export const {resetAll, setDarkMode, toggleDarkMode} = userSlice.actions;
+export const {resetAll, toggleDarkMode, Logout} = userSlice.actions;
 export default userSlice.reducer;
 

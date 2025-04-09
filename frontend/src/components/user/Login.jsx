@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { FaMoon, FaSun, FaUser, FaLock } from 'react-icons/fa';
 import Logo from '../Logo/Logo';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleDarkMode } from '../../features/user/userSlice';
+import { resetAll, toggleDarkMode } from '../../features/user/userSlice';
 import { userLogin } from '../../features/user/userActions';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import InputField from '../utils/InputField';
 
 const Login = () => {
@@ -19,7 +19,25 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const darkMode = useSelector((state) => state.user.darkMode);
+  const loading = useSelector(state=>state.user.loading)
+  const error = useSelector(state=>state.user.error)
+  const success = useSelector(state=>state.user.success)
+
+  useEffect(()=>{
+    if(success){
+      navigate('/');
+      dispatch(resetAll())
+    }
+    if (error){
+      console.log(error, 'error sign in')
+      if (typeof error === 'object') {
+        setErrors(error);
+      }
+    }
+  },[success, error])
 
   useEffect(() => {
     if (darkMode) {
@@ -80,6 +98,7 @@ const Login = () => {
       password: formData.password
     })).finally(() => {
       setIsSubmitting(false);
+      dispatch(resetAll())
     });
   };
 
@@ -150,7 +169,7 @@ const Login = () => {
                 disabled={isSubmitting}
                 className="w-full py-3 px-4 bg-gradient-to-r from-primary-600 to-accent-600 hover:from-primary-700 hover:to-accent-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
               >
-                {isSubmitting ? (
+                {loading ? (
                   <>
                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
