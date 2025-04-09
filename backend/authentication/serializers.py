@@ -58,6 +58,44 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     
 
 
+# class LoginSerializer(serializers.ModelSerializer):
+
+#     email = serializers.EmailField(required=True)
+#     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
+
+#     class Meta:
+#         model = User
+#         fields = ('email', 'password')
+        
+#     def validate(self, attrs):
+#         email = attrs.get('email')
+#         password = attrs.get('password')
+        
+#         if email and password:
+#             user = authenticate(request=self.context.get('request'), username=email, password=password)
+            
+#             if not user:
+#                 raise serializers.ValidationError(
+#                     {"error": "invalid_credentials", "message": "Invalid email or password"},
+#                     code='authorization'
+#                 )
+            
+#             if not user.is_active:
+#                 raise serializers.ValidationError(
+#                     {"error": "account_disabled", "message": "User account is disabled."},
+#                     code='authorization'
+#                 )
+            
+#             attrs['user'] = user
+#             return attrs
+        
+#         raise serializers.ValidationError(
+#             {"error": "missing_fields", "message": "Both 'email' and 'password' are required."},
+#             code='authorization'
+#         )
+
+
+
 class LoginSerializer(serializers.ModelSerializer):
 
     email = serializers.EmailField(required=True)
@@ -66,23 +104,36 @@ class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'password')
-    
+        
     def validate(self, attrs):
         email = attrs.get('email')
         password = attrs.get('password')
-
-
-        if email and password:
-            user = authenticate(request=self.context.get('request'),username=email, password=password )
-
-            if not user:
-                raise serializers.ValidationError(_("Invalid email or password"), code='authorization')
-            
-            if not user.is_active:
-                raise serializers.ValidationError(_('User account is disabled.'), code='authorization')
-            
-            attrs['user'] = user
-            return attrs
-    
         
-        raise serializers.ValidationError(_("Both 'email' and 'password' are required."), code='authorization')
+        if email and password:
+            # Try to get the user directly by email first
+            try:
+                user = User.objects.get(email=email)
+                if user.check_password(password):
+                    # Manually authenticate the user
+                    if not user.is_active:
+                        raise serializers.ValidationError(
+                            {"error": "account_disabled", "message": "User account is disabled."},
+                            code='authorization'
+                        )
+                    attrs['user'] = user
+                    return attrs
+                else:
+                    raise serializers.ValidationError(
+                        {"error": "invalid_credentials", "message": "Invalid email or password"},
+                        code='authorization'
+                    )
+            except User.DoesNotExist:
+                raise serializers.ValidationError(
+                    {"error": "invalid_credentials", "message": "Invalid email or password"},
+                    code='authorization'
+                )
+        
+        raise serializers.ValidationError(
+            {"error": "missing_fields", "message": "Both 'email' and 'password' are required."},
+            code='authorization'
+        )
