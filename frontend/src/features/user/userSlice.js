@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin, userSignup } from "./userActions";
+import { userLogin, userLogout, userSignup } from "./userActions";
 import { handlePending, handleRejected } from "../utils";
 
 const initialState = {
@@ -22,6 +22,15 @@ const userSlice = createSlice({
             state.success = false;
             state.error = '';
         },
+        Logout: (state)=>{
+            state.loading = false;
+            state.success = false;
+            state.message= '';
+            state.error= '';
+            state.accesstoken= '';
+            state.darkMode= '';
+            state.userDetails= '';
+        },
         toggleDarkMode: (state) =>{
             state.darkMode = !state.darkMode
         }
@@ -42,11 +51,15 @@ const userSlice = createSlice({
         .addCase(userSignup.rejected, handleRejected)
         .addCase(userSignup.fulfilled, (state, action)=>{
             state.success = true;
-            state.pending = true;
+            state.pending = false;
+        })
+        .addCase(userLogout.fulfilled, (state)=>{
+            state.success = true;
+            state.pending = false;
         })
     }
 })
 
-export const {resetAll, toggleDarkMode} = userSlice.actions;
+export const {resetAll, toggleDarkMode, Logout} = userSlice.actions;
 export default userSlice.reducer;
 
