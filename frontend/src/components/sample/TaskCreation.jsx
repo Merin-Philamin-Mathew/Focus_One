@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import {  CheckCircle, Clock, X, Pause, Play } from 'lucide-react';
 import HabitSearching from './HabitSearching';
 import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedHabit } from '../../features/task/taskSlice';
 
 const TaskCreation = () => {
   // States for task creation flow
@@ -132,7 +133,7 @@ const TaskCreation = () => {
               <input
                 type="text"
                 id="subtopic"
-                className="form-input"
+                className="form-input px-3 py-2"
                 placeholder="What specifically will you work on?"
                 value={subTopic}
                 onChange={(e) => setSubTopic(e.target.value)}

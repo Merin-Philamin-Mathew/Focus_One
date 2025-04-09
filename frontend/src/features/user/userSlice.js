@@ -33,7 +33,10 @@ const userSlice = createSlice({
         },
         toggleDarkMode: (state) =>{
             state.darkMode = !state.darkMode
-        }
+        },
+        setAccessToken: (state, action) => {
+            state.accesstoken = action.payload;
+        },
     },
     extraReducers(builder){
         builder
@@ -60,6 +63,6 @@ const userSlice = createSlice({
     }
 })
 
-export const {resetAll, toggleDarkMode, Logout} = userSlice.actions;
+export const {resetAll, toggleDarkMode, Logout, setAccessToken} = userSlice.actions;
 export default userSlice.reducer;
 

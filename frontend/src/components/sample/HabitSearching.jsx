@@ -119,7 +119,7 @@ function HabitSearching() {
             <button 
               type="button" 
               className="ml-2"
-              onClick={() => setSelectedHabit(null)}
+              onClick={() => {dispatch(setSelectedHabit(null))}}
             >
               <X className="h-3 w-3" />
             </button>
