@@ -1,17 +1,25 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleDarkMode } from "../../features/user/userSlice";
+import { Logout, toggleDarkMode } from "../../features/user/userSlice";
 import Logo from "../Logo/Logo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaMoon, FaSun, FaSignOutAlt} from "react-icons/fa";
+import { userLogout } from "../../features/user/userActions";
 
 function Navbar() {
   const dispatch = useDispatch();
-  const darkMode = useSelector((state) => state.user.darkMode);
-  const user = useSelector((state) => state.user.userDetails);
+  const {userDetails, darkMode, success, error, loading} = useSelector((state) => state.user);
 
+  const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef(null);
+
+  useEffect(()=>{
+    if(success){
+      dispatch(Logout())
+      navigate('/signin') 
+    }
+  }, [success, error])
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -26,6 +34,8 @@ function Navbar() {
     };
   }, []);
 
+  console.log(userDetails, darkMode, 'userrrr')
+
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -34,10 +44,10 @@ function Navbar() {
     }
   }, [darkMode]);
 
-  const handleLogout = () => {
+  const handleLogout = (e) => {
     e.stopPropagation();
     setShowPopup(false);
-
+    dispatch(userLogout())
     console.log("Logging out...");
   };
 
@@ -48,7 +58,7 @@ function Navbar() {
           <Logo className="h-10 transition-all hover:scale-105" />
 
           <div className="flex items-center space-x-4">
-            {user ? (
+            {userDetails ? (
               <div className="relative" ref={popupRef}>
                 <button
                   onClick={() => setShowPopup((prev) => !prev)}
@@ -57,7 +67,7 @@ function Navbar() {
                   aria-haspopup="true"
                 >
                   <div className="w-9 h-9 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 flex items-center justify-center text-white font-bold shadow-md hover:shadow-lg transition-all duration-200">
-                    {user.first_name?.charAt(0).toUpperCase()}
+                    {userDetails.first_name?.charAt(0).toUpperCase()}
                   </div>
                   <svg
                     className={`ml-1.5 h-4 w-4 text-secondary-600 dark:text-secondary-400 transition-transform duration-400 ${
@@ -80,14 +90,14 @@ function Navbar() {
                     <div className="px-4 py-3 border-b border-secondary-100 dark:border-dark-50">
                       <div className="flex items-center">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 flex items-center justify-center text-white font-bold mr-3">
-                          {user.first_name?.charAt(0).toUpperCase()}
+                          {userDetails.first_name?.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-secondary-900 dark:text-white truncate">
-                            {user.first_name} {user.last_name}
+                            {userDetails.first_name} {userDetails.last_name}
                           </p>
                           <p className="text-xs text-secondary-500 dark:text-secondary-400 truncate">
-                            {user.email}
+                            {userDetails.email}
                           </p>
                         </div>
                       </div>
