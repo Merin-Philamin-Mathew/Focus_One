@@ -6,6 +6,9 @@ const initialState = {
     searchedHabits: [],
     selectedHabit: '',
     currentStep: 'create',
+    subTopic: '',
+    estAmountOfWork: '',
+    workUnit: '',
 
     loading: false,
     success: false,
@@ -27,7 +30,16 @@ const taskSlice = createSlice({
         },
         setCurrentStep: (state,action)=>{            
             state.currentStep = action.payload
-        }
+        },
+        setSubTopicR: (state,action)=>{            
+            state.subTopic = action.payload
+        },
+        setEstAmountOfWorkR: (state,action)=>{            
+            state.estAmountOfWork = action.payload
+        },
+        setWorkUnitR: (state,action)=>{            
+            state.workUnit = action.payload
+        },
     },
 
     extraReducers(builder){
@@ -46,6 +58,6 @@ const taskSlice = createSlice({
 
 })
 
-export const {resetAll,setSelectedHabit,setCurrentStep} = taskSlice.actions;
+export const {resetAll,setSelectedHabit,setCurrentStep,setSubTopicR,setEstAmountOfWorkR,setWorkUnitR} = taskSlice.actions;
 export default taskSlice.reducer;
 
