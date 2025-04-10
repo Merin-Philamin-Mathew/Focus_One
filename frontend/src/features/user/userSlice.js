@@ -10,6 +10,7 @@ const initialState = {
     error: '',
     message: '',
     darkMode: false,
+    isLoggedin:false
 }
 
 
@@ -17,6 +18,9 @@ const userSlice = createSlice({
     name: 'user',
     initialState: initialState,
     reducers: {
+        setIsLoggedin: (state)=>{
+            state.isLoggedin = true;
+        },
         resetAll: (state)=>{
             state.loading = false;
             state.success = false;
@@ -30,6 +34,7 @@ const userSlice = createSlice({
             state.accesstoken= '';
             state.darkMode= '';
             state.userDetails= '';
+            state.isLoggedin=false
         },
         toggleDarkMode: (state) =>{
             state.darkMode = !state.darkMode
@@ -55,6 +60,7 @@ const userSlice = createSlice({
         .addCase(userSignup.fulfilled, (state, action)=>{
             state.success = true;
             state.pending = false;
+            state.message = action?.payload?.message
         })
         .addCase(userLogout.fulfilled, (state)=>{
             state.success = true;
@@ -63,6 +69,6 @@ const userSlice = createSlice({
     }
 })
 
-export const {resetAll, toggleDarkMode, Logout, setAccessToken} = userSlice.actions;
+export const {resetAll, toggleDarkMode, Logout, setAccessToken, setIsLoggedin} = userSlice.actions;
 export default userSlice.reducer;
 

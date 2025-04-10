@@ -8,7 +8,7 @@ import { userLogout } from "../../features/user/userActions";
 
 function Navbar() {
   const dispatch = useDispatch();
-  const {userDetails, darkMode, success, error, loading} = useSelector((state) => state.user);
+  const {userDetails, darkMode, success, error, loading, message} = useSelector((state) => state.user);
 
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
@@ -53,7 +53,7 @@ function Navbar() {
 
   return (
     <div>
-      <header className="bg-white shadow-md dark:bg-dark-200 dark:border-b dark:border-dark-100">
+      <header className="fixed w-full z-20 bg-white shadow-md dark:bg-dark-200 dark:border-b dark:border-dark-100">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <Logo className="h-10 transition-all hover:scale-105" />
 
