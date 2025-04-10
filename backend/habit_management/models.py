@@ -39,6 +39,7 @@ class Task(models.Model):
     habit = models.ForeignKey(Habits, on_delete=models.CASCADE, related_name='habits', blank=False, null=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='task_user', blank=False, null=False)
     amount_of_work = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    est_amount_of_work = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     unit = models.CharField(max_length=20, blank=False, null=False)
     is_completed = models.BooleanField(default=False, blank=False, null=False)
     is_focused = models.BooleanField(default=False)

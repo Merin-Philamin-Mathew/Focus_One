@@ -5,6 +5,7 @@ import { handlePending, handleRejected } from "../utils";
 const initialState = {
     searchedHabits: [],
     selectedHabit: '',
+    currentStep: 'create',
 
     loading: false,
     success: false,
@@ -23,6 +24,9 @@ const taskSlice = createSlice({
         },
         setSelectedHabit: (state,action)=>{            
             state.selectedHabit = action.payload
+        },
+        setCurrentStep: (state,action)=>{            
+            state.currentStep = action.payload
         }
     },
 
@@ -42,6 +46,6 @@ const taskSlice = createSlice({
 
 })
 
-export const {resetAll,setSelectedHabit} = taskSlice.actions;
+export const {resetAll,setSelectedHabit,setCurrentStep} = taskSlice.actions;
 export default taskSlice.reducer;
 
