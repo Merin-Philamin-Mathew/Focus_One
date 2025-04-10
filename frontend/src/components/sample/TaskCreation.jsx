@@ -6,9 +6,13 @@ import { setSelectedHabit, setCurrentStep } from '../../features/task/taskSlice'
 import { useToast } from '../utils/toasts/Toast';
 import { customToast } from '../utils/toasts/Sonner';
 
+import celebrationAnimation from '../../assets/animations/celebrations/json_celebration.json';
+import Lottie from 'lottie-react';
+
 const TaskCreation = () => {
   const dispatch = useDispatch()
-  
+  const [showCelebration, setShowCelebration] = useState(false);
+
   const toast = useToast()
   // States for task creation flow
   const { selectedHabit, currentStep} = useSelector((state) => state.tasks);
@@ -31,9 +35,14 @@ const TaskCreation = () => {
 
   // Handle task completion
   const completeTask = () => {
+    setShowCelebration(true)
     resetTask();
     customToast.success('Task Created!')
     // toast.success('Task Created!')
+    setTimeout(() => {
+      setShowCelebration(false); 
+      resetTask();
+    }, 3000);
   };
 
   // Reset task state
@@ -117,9 +126,17 @@ const TaskCreation = () => {
 
 
   return (
-    <div className="max-w-lg mx-auto pt-9 px-4">
+    <>
+    {showCelebration && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <Lottie animationData={celebrationAnimation} loop={false} style={{ width: 500, height: 500 }} />
+      </div>
+    )}
+    <div className="max-w-lg mx-auto px-4">
       {currentStep === 'create' && (
         <div className="relative overflow-hidden card mt-8 pb-12">
+
+
           {/* Background graphic elements */}
           <div className="absolute right-0 top-0 w-32 h-32 bg-gradient-to-br from-primary-200 to-primary-400 rounded-bl-full opacity-10 dark:from-primary-700 dark:to-primary-900 dark:opacity-20"></div>
           <div className="absolute left-0 bottom-0 w-24 h-24 bg-gradient-to-tr from-accent-200 to-accent-400 rounded-tr-full opacity-10 dark:from-accent-700 dark:to-accent-900 dark:opacity-15"></div>
@@ -355,6 +372,7 @@ const TaskCreation = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

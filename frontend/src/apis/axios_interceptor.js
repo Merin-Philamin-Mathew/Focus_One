@@ -15,6 +15,7 @@ axiosInstance.interceptors.request.use(
         console.log('token:',token)
         return config
     },
+
     (error)=>Promise.reject(error)
 );
 
