@@ -133,7 +133,6 @@ const TaskCreation = () => {
       </div>
     )}
     <div className="max-w-lg mx-auto px-4">
-  
       {currentStep === 'create' && (
         <div className="relative overflow-hidden card mt-8 pb-12">
 
