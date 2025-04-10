@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, X, Plus, CheckCircle, Filter } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSearchedHabits } from '../../features/task/taskActions';
-import { setSelectedHabit } from '../../features/task/taskSlice';
+import { resetAll, setSelectedHabit } from '../../features/task/taskSlice';
 
 function HabitSearching() {
   const dispatch = useDispatch();
@@ -15,7 +15,6 @@ function HabitSearching() {
 
   // Debounce function
   useEffect(() => {
-    // Set a timer to update the debounced search term after 500ms
     const timer = setTimeout(() => {
       if (habitSearch.trim().length > 0) {
         setDebouncedSearchTerm(habitSearch);
@@ -23,9 +22,8 @@ function HabitSearching() {
       } else {
         setIsDropdownOpen(false);
       }
-    }, 500); // 500ms delay
+    }, 500);
 
-    // Clear the timer if habitSearch changes before the timeout
     return () => clearTimeout(timer);
   }, [habitSearch]);
 
@@ -36,7 +34,7 @@ function HabitSearching() {
     }
   }, [debouncedSearchTerm, dispatch]);
 
-  // Handle habit selection
+
   const selectHabit = (habit) => {
     // Transform API habit object to match your component's expected format
     const formattedHabit = {
