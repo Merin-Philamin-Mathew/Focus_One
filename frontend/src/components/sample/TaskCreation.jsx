@@ -117,7 +117,7 @@ const TaskCreation = () => {
 
 
   return (
-    <div className="max-w-lg mx-auto px-4">
+    <div className="max-w-lg mx-auto pt-9 px-4">
       {currentStep === 'create' && (
         <div className="relative overflow-hidden card mt-8 pb-12">
           {/* Background graphic elements */}

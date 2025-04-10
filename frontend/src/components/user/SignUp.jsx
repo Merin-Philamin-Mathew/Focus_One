@@ -7,15 +7,13 @@ import { resetAll, toggleDarkMode } from "../../features/user/userSlice";
 import Logo from "../Logo/Logo";
 import InputField from "../utils/InputField";
 import { userSignup } from "../../features/user/userActions";
+import { customToast } from "../utils/toasts/Sonner";
 
 function SignUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const darkMode = useSelector((state) => state.user.darkMode);
-  const loading = useSelector(state=>state.user.loading)
-  const error = useSelector(state=>state.user.error)
-  const success = useSelector(state=>state.user.success)
+  const {darkMode, loading, error, success, message} = useSelector((state) => state.user);
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -32,6 +30,7 @@ function SignUp() {
   useEffect(()=>{
     if(success){
       navigate('/signin')
+      customToast.success(message)
       dispatch(resetAll())
     }
     if(error){

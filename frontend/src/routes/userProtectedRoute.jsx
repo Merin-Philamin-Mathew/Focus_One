@@ -5,13 +5,12 @@ import { resetAll } from '../features/user/userSlice';
 
 function ProtectedRoute({children}) {
 
-  const userDetails = useSelector(state=>state.user.userDetails);
+  const isLoggedin = useSelector(state=>state.user.isLoggedin);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  console.log(userDetails, 'userrr')
+  console.log(isLoggedin, 'userrr')
 
-  if (!userDetails || userDetails === null || userDetails === undefined){
+  if (!isLoggedin){
     dispatch(resetAll());
     return <Navigate to="/signin" />;
   }

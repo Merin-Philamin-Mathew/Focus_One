@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { FaMoon, FaSun, FaUser, FaLock } from 'react-icons/fa';
 import Logo from '../Logo/Logo';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetAll, toggleDarkMode } from '../../features/user/userSlice';
+import { resetAll, setIsLoggedin, toggleDarkMode } from '../../features/user/userSlice';
 import { userLogin } from '../../features/user/userActions';
 import { Link, useNavigate } from 'react-router-dom';
 import InputField from '../utils/InputField';
+import { customToast } from '../utils/toasts/Sonner';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -14,20 +15,20 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({
     email: '',
-    password: ''
+    password: '',
+    message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const darkMode = useSelector((state) => state.user.darkMode);
-  const loading = useSelector(state=>state.user.loading)
-  const error = useSelector(state=>state.user.error)
-  const success = useSelector(state=>state.user.success)
-
+  const {darkMode, loading, error, success, message} = useSelector((state) => state.user);
+  
   useEffect(()=>{
     if(success){
+      customToast.success(message)
+      dispatch(setIsLoggedin())
       navigate('/');
       dispatch(resetAll())
     }
@@ -39,6 +40,8 @@ const Login = () => {
     }
   },[success, error])
 
+
+  console.log(errors, 'errororororor')
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
@@ -53,12 +56,19 @@ const Login = () => {
       ...formData,
       [id]: value
     });
+    console.log(id, 'idddd')
     
     // Clear error when user starts typing
     if (errors[id]) {
       setErrors({
         ...errors,
-        [id]: ''
+        [id]: '',
+      });
+    }
+    if(errors['message']){
+      setErrors({
+        ...errors,
+        message: '',
       });
     }
   };
@@ -162,6 +172,9 @@ const Login = () => {
                 </span>
               </div>
             </div>
+            {errors?.message &&
+              <p className="text-red-500 dark:text-red-400 text-sm mt-1 transition-all duration-300 ease-in-out">{errors?.message[0]}</p>
+            }
             
             <div className="pt-5">
               <button 
