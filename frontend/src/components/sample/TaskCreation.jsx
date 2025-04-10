@@ -66,6 +66,7 @@ const TaskCreation = () => {
    // Handle task creation submission
    const createTask = (e) => {
     e.preventDefault();
+    console.log(e,'create task')
     if (selectedHabit && subTopic.trim() && estAmountOfWork && workUnit) {
       // Here you would save all fields including est_amount_of_work and unit
       dispatch(setCurrentStep('active'));
@@ -76,7 +77,6 @@ const TaskCreation = () => {
   // Handle task completion
   const completeTask = () => {
     setShowCelebration(true)
-  
   };
 
   const finalizeTask = () => {
@@ -298,7 +298,7 @@ const TaskCreation = () => {
                 <select
                   value={workUnit}
                   onChange={(e) => setWorkUnit(e.target.value)}
-                  className="form-select border-secondary-300 dark:border-secondary-700 rounded-r-lg py-3 pl-3 pr-8 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-secondary-50 dark:bg-secondary-800 text-secondary-800 dark:text-secondary-200 border-l-0"
+                  className="form-select border-secondary-300 dark:border-secondary-700 rounded-lg py-3 pl-3 pr-8 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-secondary-50 dark:bg-secondary-800 text-secondary-800 dark:text-secondary-200 border-l-0"
                 >
                   {getAvailableUnits().map((unit) => (
                     <option key={unit} value={unit}>{unit}</option>

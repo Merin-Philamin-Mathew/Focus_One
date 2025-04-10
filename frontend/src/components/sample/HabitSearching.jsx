@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Search, X, Plus, CheckCircle, Filter } from 'lucide-react';
+import { Search, X, Plus, CheckCircle, Filter, PlusCircle } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSearchedHabits } from '../../features/task/taskActions';
+import { fetchSearchedHabits, createHabitAction } from '../../features/task/taskActions';
 import { resetAll, setSelectedHabit } from '../../features/task/taskSlice';
 
 function HabitSearching() {
@@ -9,6 +9,7 @@ function HabitSearching() {
   const [habitSearch, setHabitSearch] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isAddingNew, setIsAddingNew] = useState(false);
   
   // Get searched habits from Redux store
   const { searchedHabits, loading, selectedHabit } = useSelector((state) => state.tasks);
@@ -34,7 +35,6 @@ function HabitSearching() {
     }
   }, [debouncedSearchTerm, dispatch]);
 
-
   const selectHabit = (habit) => {
     // Transform API habit object to match your component's expected format
     const formattedHabit = {
@@ -45,6 +45,7 @@ function HabitSearching() {
     dispatch(setSelectedHabit(formattedHabit));
     setHabitSearch('');
     setIsDropdownOpen(false);
+    setIsAddingNew(false);
   };
 
   // Function to assign a color to a habit based on its ID
@@ -71,6 +72,31 @@ function HabitSearching() {
     if (habitSearch.trim().length > 0) {
       setIsDropdownOpen(true);
     }
+  };
+
+  // Handle creating a new habit
+  const handleCreateHabit = () => {
+    if (habitSearch.trim().length > 0) {
+      dispatch(createHabitAction({
+        "habit_name": habitSearch
+      })).then((response) => {
+        if (response?.payload?.data?.id) {
+          console.log('hABIT CREAT')
+          selectHabit({
+            id: response.payload.data?.id,
+            habit_name: response.payload.data?.habit_name
+          });
+          
+          // Show success notification (you could implement this)
+          console.log(`Created new habit: ${habitSearch}`);
+        }
+      });
+    }
+  };
+
+  // Toggle add new habit prompt
+  const toggleAddNew = () => {
+    setIsAddingNew(!isAddingNew);
   };
 
   return (
@@ -151,13 +177,49 @@ function HabitSearching() {
                         <CheckCircle className="h-4 w-4 text-primary-500 dark:text-primary-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                     ))
+                  ) : isAddingNew ? (
+                    // Adding new habit UI - animated form
+                    <div className="p-4 animate-fadeIn">
+                      <div className="text-center mb-3">
+                        <div className="rounded-full bg-primary-100 dark:bg-primary-900/30 p-2 inline-flex mb-2">
+                          <PlusCircle className="h-5 w-5 text-primary-500" />
+                        </div>
+                        <p className="text-sm font-medium text-secondary-800 dark:text-secondary-200">Create "{habitSearch}"</p>
+                        <p className="text-xs text-secondary-500 mt-1">Add this as a new habit to track</p>
+                      </div>
+                      
+                      <div className="flex space-x-2">
+                        <button 
+                          className="flex-1 py-2 text-sm bg-white dark:bg-dark-200 border border-secondary-300 dark:border-secondary-700 text-secondary-700 dark:text-secondary-300 rounded-md hover:bg-secondary-50 dark:hover:bg-dark-300 transition-colors"
+                          onClick={toggleAddNew}
+                        >
+                          Cancel
+                        </button>
+                        <button 
+                          className="flex-1 py-2 text-sm bg-primary-500 hover:bg-primary-600 text-white rounded-md transition-colors flex items-center justify-center"
+                          onClick={handleCreateHabit}
+                        >
+                          <Plus className="h-4 w-4 mr-1" />
+                          Create Habit
+                        </button>
+                      </div>
+                    </div>
                   ) : (
+                    // Empty results with option to create new habit
                     <div className="p-4 text-center">
                       <div className="rounded-full bg-secondary-100 dark:bg-dark-200 p-2 inline-flex mb-2">
                         <Search className="h-5 w-5 text-secondary-500" />
                       </div>
                       <p className="text-sm text-secondary-600 dark:text-secondary-400">No matching habits found</p>
-                      <p className="text-xs text-secondary-500 dark:text-secondary-500 mt-1">Try a different search term</p>
+                      <p className="text-xs text-secondary-500 dark:text-secondary-500 mt-1 mb-3">Would you like to create this habit?</p>
+                      
+                      <button 
+                        className="px-4 py-2 text-sm rounded-full bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-700/50 text-primary-600 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors flex items-center mx-auto"
+                        onClick={toggleAddNew}
+                      >
+                        <PlusCircle className="h-4 w-4 mr-1.5" />
+                        Create "{habitSearch}"
+                      </button>
                     </div>
                   )}
                 </div>

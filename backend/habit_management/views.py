@@ -22,6 +22,7 @@ class HabitListCreateView(APIView):
     
     def post(self, request):
         habit_name = request.data.get('habit_name')
+        print('request',request.data,habit_name)
         is_public = request.data.get('is_public')
         if not habit_name:
             return Response({"error":"habit_name field is required"}, status=status.HTTP_400_BAD_REQUEST)
