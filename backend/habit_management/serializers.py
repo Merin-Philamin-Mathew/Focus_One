@@ -22,11 +22,11 @@ class TaskSerializer(serializers.ModelSerializer):
     Task serializer is to manage tasks which defines a habit. This serializer perform crud operations.
     '''
     habit = HabitSerializer(read_only=True)
-    habit_id = serializers.PrimaryKeyRelatedField(queryset=Task.objects.all(), source=habit, write_only=True)
+    habit_id = serializers.PrimaryKeyRelatedField(queryset=Habits.objects.all(), source='habit', write_only=True)
     class Meta:
         model = Task
         fields = [
-            'id', 'task_name', 'habit', 'habit_id', 'user','est_amount_of_work'
+            'id', 'task_name', 'habit', 'habit_id', 'user','est_amount_of_work',
             'amount_of_work', 'unit', 'is_completed',
             'created_at', 'completed_at'
         ]

@@ -8,5 +8,5 @@ export const AUTHENTICATION = {
 export const TASK_URLS = {
         'search-habit':'habit/search-habit/',    
         'habit':'habit/',    
-        'task':'task/',    
+        'task':'habit/task/',    
     }
