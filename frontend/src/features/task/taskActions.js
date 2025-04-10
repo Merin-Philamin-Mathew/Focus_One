@@ -24,10 +24,10 @@ export const createHabitAction = createAsyncThunk('createHabitAction', async (da
     }
 })
 
-// Create Task
+// Create TASK
 export const createTaskAction = createAsyncThunk('createTaskAction', async (data, {rejectWithValue})=>{
     try{
-        console.log('createHabit habits',data)
+        console.log('createTask actions',data)
         const response = await axiosInstance.post(TASK_URLS["task"], data)
         return response.data;
     }catch(error){

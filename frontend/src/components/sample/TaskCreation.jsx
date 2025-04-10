@@ -8,6 +8,7 @@ import { customToast } from '../utils/toasts/Sonner';
 
 import celebrationAnimation from '../../assets/animations/celebrations/json_celebration.json';
 import Lottie from 'lottie-react';
+import { createTaskAction } from '../../features/task/taskActions';
 
 const TaskCreation = () => {
   const dispatch = useDispatch()
@@ -67,8 +68,19 @@ const TaskCreation = () => {
    const createTask = (e) => {
     e.preventDefault();
     console.log(e,'create task')
-    if (selectedHabit && subTopic.trim() && estAmountOfWork && workUnit) {
+    if (selectedHabit && subTopic?.trim() && estAmountOfWork && workUnit) {
       // Here you would save all fields including est_amount_of_work and unit
+      console.log(selectedHabit.id,typeof(selectedHabit.id),'iiiiiiiiiiiiiii')
+
+      const task_details= {
+        "task_name": subTopic,
+        "habit": selectedHabit.id,
+        "habit_id": selectedHabit.id,
+        "est_amount_of_work": estAmountOfWork,
+        "unit": workUnit,
+        "is_completed": false
+      }
+      dispatch(createTaskAction(task_details))
       dispatch(setCurrentStep('active'));
       customToast.success('Task Created!')
     }
@@ -261,7 +273,7 @@ const TaskCreation = () => {
                   onChange={(e) => setSubTopic(e.target.value)}
                   required
                 />
-                 {subTopic.length > 0 && subTopic.length < 10 && (
+                 {subTopic?.length > 0 && subTopic?.length < 10 && (
                   <p className="text-sm text-red-400 mt-2">
                     Please be more specific — at least 10 characters.
                   </p>
@@ -269,7 +281,7 @@ const TaskCreation = () => {
               </div>
               <div className="mt-2 flex justify-between items-center text-xs text-secondary-500 dark:text-secondary-400">
                 <span>{subTopic ? '✓ Task defined' : 'Be specific about your task'}</span>
-                <span className="text-primary-500 dark:text-primary-400">{subTopic.length}/100</span>
+                <span className="text-primary-500 dark:text-primary-400">{subTopic?.length}/100</span>
               </div>
             </div>
             
@@ -291,7 +303,7 @@ const TaskCreation = () => {
                     placeholder="How much will you complete?"
                     value={estAmountOfWork}
                     onChange={(e) => setEstAmountOfWork(e.target.value)}
-                    required
+                    // required
                   />
                 </div>
                 
@@ -394,7 +406,7 @@ const TaskCreation = () => {
                 <div 
                   className={`h-full bg-primary-500 rounded-full transition-all duration-500`}
                   style={{ 
-                    width: `${((selectedHabit ? 1 : 0) + (subTopic.trim() ? 1 : 0) + (estAmountOfWork ? 1 : 0)) * 100 / 3}%` 
+                    width: `${((selectedHabit ? 1 : 0) + (subTopic?.trim() ? 1 : 0) + (estAmountOfWork ? 1 : 0)) * 100 / 3}%` 
                   }}
                 ></div>
               </div>
@@ -404,15 +416,15 @@ const TaskCreation = () => {
             <button 
               type="submit"
               className={`relative overflow-hidden btn-primary w-full py-4 font-medium text-white transition-all duration-300 ${
-                (!selectedHabit || !subTopic.trim() || !estAmountOfWork) ? 'opacity-60 cursor-not-allowed' : 'hover:shadow-lg hover:scale-[1.02]'
+                (!selectedHabit || !subTopic?.trim() || !estAmountOfWork) ? 'opacity-60 cursor-not-allowed' : 'hover:shadow-lg hover:scale-[1.02]'
               }`}
-              disabled={!selectedHabit || !subTopic.trim() || !estAmountOfWork}
+              disabled={!selectedHabit || !subTopic?.trim() || !estAmountOfWork}
             >
               <span className="relative z-10 flex items-center justify-center">
                 <Clock className="h-5 w-5 mr-2" />
                 Begin Your Task
               </span>
-              {selectedHabit && subTopic.trim() && estAmountOfWork && (
+              {selectedHabit && subTopic?.trim() && estAmountOfWork && (
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-600 dark:from-primary-600 dark:to-primary-700 transform transition-transform duration-300 ease-in-out -translate-x-full group-hover:translate-x-0"></div>
               )}
             </button>
