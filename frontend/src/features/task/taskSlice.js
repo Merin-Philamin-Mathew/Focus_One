@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createHabitAction, fetchSearchedHabits } from "./taskActions";
+import { createHabitAction, createTaskAction, fetchSearchedHabits } from "./taskActions";
 import { handlePending, handleRejected } from "../utils";
 
 const initialState = {
     searchedHabits: [],
     selectedHabit: '',
     currentStep: 'create',
+    ongoing_task: '',
     subTopic: '',
     estAmountOfWork: '',
     workUnit: '',
@@ -43,7 +44,6 @@ const taskSlice = createSlice({
         },
     },
 
-
     extraReducers(builder){
         builder
         .addCase(fetchSearchedHabits.pending, handlePending)
@@ -63,13 +63,22 @@ const taskSlice = createSlice({
             state.loading = false;
             state.message = action?.payload?.message
             state.error = action?.payload?.error
-
+        })
+        .addCase(createTaskAction.pending, handlePending)
+        .addCase(createTaskAction.rejected, handleRejected)
+        .addCase(createTaskAction.fulfilled, (state, action)=>{
+            const response = action?.payload;
+            state.success = true;
+            state.loading = false;
+            state.message = action?.payload?.message
+            state.error = action?.payload?.error
+            state.ongoing_task = response.id
         })
     },
    
 
 })
 
-export const {resetAll,setSelectedHabit,setCurrentStep,setSubTopicR,setEstAmountOfWorkR,setWorkUnitR} = taskSlice.actions;
+export const {resetAll,setSelectedHabit,setCurrentStep,setSubTopicR,setEstAmountOfWorkR,setWorkUnitR,setOngoing_taskR} = taskSlice.actions;
 export default taskSlice.reducer;
 

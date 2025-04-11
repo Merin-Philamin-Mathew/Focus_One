@@ -16,7 +16,7 @@ const TaskCreation = () => {
 
   const toast = useToast()
   // States for task creation flow
-  const { selectedHabit, currentStep, subTopic, estAmountOfWork, workUnit} = useSelector((state) => state.tasks);
+  const { selectedHabit, currentStep, subTopic, estAmountOfWork, workUnit, ongoing_task} = useSelector((state) => state.tasks);
   const [completedAmount, setCompletedAmount] = useState('');
   const [percentComplete, setPercentComplete] = useState(0);
   const [showCompletionDialog, setShowCompletionDialog] = useState(false);
@@ -70,7 +70,6 @@ const TaskCreation = () => {
     console.log(e,'create task')
     if (selectedHabit && subTopic?.trim() && estAmountOfWork && workUnit) {
       // Here you would save all fields including est_amount_of_work and unit
-      console.log(selectedHabit.id,typeof(selectedHabit.id),'iiiiiiiiiiiiiii')
 
       const task_details= {
         "task_name": subTopic,
@@ -80,11 +79,15 @@ const TaskCreation = () => {
         "unit": workUnit,
         "is_completed": false
       }
-      dispatch(createTaskAction(task_details))
+      const response = dispatch(createTaskAction(task_details))
+      console.log(response.payload,'task created 84')
+      console.log(ongoing_task,'task created 84')
+      
       dispatch(setCurrentStep('active'));
       customToast.success('Task Created!')
     }
   };
+  console.log(ongoing_task,'task created 84')
 
   // Handle task completion
   const completeTask = () => {

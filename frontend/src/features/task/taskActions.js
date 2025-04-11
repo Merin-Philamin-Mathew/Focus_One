@@ -29,6 +29,7 @@ export const createTaskAction = createAsyncThunk('createTaskAction', async (data
     try{
         console.log('createTask actions',data)
         const response = await axiosInstance.post(TASK_URLS["task"], data)
+        console.log('create TAsl',response.data.id)
         return response.data;
     }catch(error){
         return rejectWithValue(error?.response?.data)
