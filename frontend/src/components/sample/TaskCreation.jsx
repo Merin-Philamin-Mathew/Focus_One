@@ -65,7 +65,7 @@ const TaskCreation = () => {
   const [timerInterval, setTimerInterval] = useState(null);
 
    // Handle task creation submission
-   const createTask = (e) => {
+   const createTask = async (e) => {
     e.preventDefault();
     console.log(e,'create task')
     if (selectedHabit && subTopic?.trim() && estAmountOfWork && workUnit) {
@@ -79,8 +79,8 @@ const TaskCreation = () => {
         "unit": workUnit,
         "is_completed": false
       }
-      const response = dispatch(createTaskAction(task_details))
-      console.log(response.payload,'task created 84')
+      const response = await dispatch(createTaskAction(task_details))
+      console.log(response,'task created 84')
       console.log(ongoing_task,'task created 84')
       
       dispatch(setCurrentStep('active'));
@@ -103,7 +103,7 @@ const TaskCreation = () => {
     
     // Reset task flow
     resetTask();
-    customToast.success('Task Completed!')
+    customToast.success('finalize task called!')
     // toast.success('Task Created!')
     setTimeout(() => {
       setShowCelebration(false); 

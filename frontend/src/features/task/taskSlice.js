@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createHabitAction, createTaskAction, fetchSearchedHabits } from "./taskActions";
+import { completeTaskAction, createHabitAction, createTaskAction, deleteTaskAction, fetchSearchedHabits } from "./taskActions";
 import { handlePending, handleRejected } from "../utils";
 
 const initialState = {
@@ -10,8 +10,15 @@ const initialState = {
     subTopic: '',
     estAmountOfWork: '',
     workUnit: '',
-    ddd:'',
+    completedAmount:'',
+    timerR:{
+        seconds: 0,
+        minutes: 0,
+        hours: 0,
+        isRunning: false
+      },
 
+    
     loading: false,
     success: false,
     error: '',
@@ -27,6 +34,21 @@ const taskSlice = createSlice({
             state.success = false;
             state.error = '';
         },
+        resetTaskR: (state)=>{
+            state.selectedHabit = '';
+            state.currentStep = 'create';
+            state.ongoing_task = '';
+            state.subTopic = '';
+            state.estAmountOfWork = '';
+            state.workUnit = '';
+            state.completedAmount = '';
+            state.timerR={
+                seconds: 0,
+                minutes: 0,
+                hours: 0,
+                isRunning: false
+              }
+        },
         setSelectedHabit: (state,action)=>{            
             state.selectedHabit = action.payload
         },
@@ -41,6 +63,13 @@ const taskSlice = createSlice({
         },
         setWorkUnitR: (state,action)=>{            
             state.workUnit = action.payload
+        },
+        setCompletedAmountR: (state,action)=>{            
+            state.completedAmount = action.payload
+        },
+        setTimerR: (state,action)=>{      
+            console.log(action.payload)    
+            state.timerR = action.payload
         },
     },
 
@@ -58,7 +87,6 @@ const taskSlice = createSlice({
         .addCase(createHabitAction.pending, handlePending)
         .addCase(createHabitAction.rejected, handleRejected)
         .addCase(createHabitAction.fulfilled, (state, action)=>{
-            const response = action?.payload;
             state.success = true;
             state.loading = false;
             state.message = action?.payload?.message
@@ -74,11 +102,27 @@ const taskSlice = createSlice({
             state.error = action?.payload?.error
             state.ongoing_task = response.id
         })
+        .addCase(completeTaskAction.pending, handlePending)
+        .addCase(completeTaskAction.rejected, handleRejected)
+        .addCase(completeTaskAction.fulfilled, (state, action)=>{
+            state.success = true;
+            state.loading = false;
+            state.message = action?.payload?.message
+            state.error = action?.payload?.error
+        })
+        .addCase(deleteTaskAction.pending, handlePending)
+        .addCase(deleteTaskAction.rejected, handleRejected)
+        .addCase(deleteTaskAction.fulfilled, (state, action)=>{
+            state.success = true;
+            state.loading = false;
+            state.message = action?.payload?.message
+            state.error = action?.payload?.error
+        })
     },
    
 
 })
 
-export const {resetAll,setSelectedHabit,setCurrentStep,setSubTopicR,setEstAmountOfWorkR,setWorkUnitR,setOngoing_taskR} = taskSlice.actions;
+export const {resetAll,setSelectedHabit,setCurrentStep,setSubTopicR,setEstAmountOfWorkR,setWorkUnitR,setOngoing_taskR,setCompletedAmountR,resetTaskR,setTimerR} = taskSlice.actions;
 export default taskSlice.reducer;
 
