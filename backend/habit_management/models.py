@@ -42,7 +42,8 @@ class Task(models.Model):
     est_amount_of_work = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     unit = models.CharField(max_length=20, blank=False, null=False)
     is_completed = models.BooleanField(default=False, blank=False, null=False)
-    timer_data = models.JSONField(default={"hours": 0, "minutes": 0, "seconds": 0})
+    timer_data = models.JSONField( blank=True, null=True)
+    # timer_data = models.JSONField(default={"hours": 0, "minutes": 0, "seconds": 0})
     created_at = models.DateTimeField(auto_now_add=True)
     completed_at = models.DateTimeField(blank=True, null=True)
 
