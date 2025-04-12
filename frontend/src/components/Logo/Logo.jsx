@@ -6,7 +6,7 @@ function Logo({ className = "" }) {
       <img
         src={darkMode?'/Logo/DarkMode_with_text.svg':'/Logo/LightMode_with_text.svg'}
         alt="Focus One Logo"
-        className={className}
+        className={className} 
       />
     );
   }

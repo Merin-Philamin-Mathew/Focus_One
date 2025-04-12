@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { completeTaskAction, createHabitAction, createTaskAction, deleteTaskAction, fetchSearchedHabits } from "./taskActions";
+import { completeTaskAction, createHabitAction, createTaskAction, deleteTaskAction, fetchSearchedHabits, fetchTaskAction } from "./taskActions";
 import { handlePending, handleRejected } from "../utils";
 
 const initialState = {
     searchedHabits: [],
+
+    // task fields
     selectedHabit: '',
     currentStep: 'create',
     ongoing_task: '',
@@ -18,6 +20,7 @@ const initialState = {
         isRunning: false
       },
 
+    completedTasks:[],
     
     loading: false,
     success: false,
@@ -117,6 +120,15 @@ const taskSlice = createSlice({
             state.loading = false;
             state.message = action?.payload?.message
             state.error = action?.payload?.error
+        })
+        .addCase(fetchTaskAction.pending, handlePending)
+        .addCase(fetchTaskAction.rejected, handleRejected)
+        .addCase(fetchTaskAction.fulfilled, (state, action)=>{
+            state.success = true;
+            state.loading = false;
+            state.message = action?.payload?.message
+            state.error = action?.payload?.error;
+            state.completedTasks = action?.payload
         })
     },
    

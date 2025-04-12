@@ -1,11 +1,12 @@
     // Common units based on habit types
     const defaultUnits = {
-      reading: ['pages', 'chapters', 'minutes', 'hours'],
+      reading: ['pages', 'chapters', 'minutes', 'hours','words', 'paragraphs',],
       exercise: ['minutes', 'reps', 'sets', 'miles', 'kilometers'],
-      learning: ['minutes', 'hours', 'lessons', 'exercises'],
+      learning: ['minutes', 'hours', 'lessons', 'exercises','miles', 'kilometers','words','chapters'],
       writing: ['words', 'paragraphs', 'pages', 'minutes'],
-      meditation: ['minutes', 'sessions'],
-      default: ['minutes', 'hours', 'items', 'sessions', 'tasks']
+      meditation: ['minutes', 'sessions','hours',],
+      default: ['minutes', 'hours', 'items', 'sessions','lessons','tasks',
+        'pages', 'chapters','reps', 'sets', 'miles','glasses', 'kilometers','words', 'paragraphs',]
     };
        
    // Determine available units based on selected habit

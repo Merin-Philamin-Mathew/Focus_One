@@ -7,6 +7,7 @@ import { userLogin } from '../../features/user/userActions';
 import { Link, useNavigate } from 'react-router-dom';
 import InputField from '../utils/InputField';
 import { customToast } from '../utils/toasts/Sonner';
+import { fetchTaskAction } from '@/features/task/taskActions';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -93,7 +94,7 @@ const Login = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     
@@ -109,6 +110,7 @@ const Login = () => {
     })).finally(() => {
       setIsSubmitting(false);
       dispatch(resetAll())
+      dispatch(fetchTaskAction())
     });
   };
 

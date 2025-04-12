@@ -26,6 +26,7 @@ export const createHabitAction = createAsyncThunk('createHabitAction', async (da
       }
 })
 
+// ======================================================================
 // Create TASK
 export const createTaskAction = createAsyncThunk('createTaskAction', async (data, {rejectWithValue})=>{
     try{
@@ -39,15 +40,11 @@ export const createTaskAction = createAsyncThunk('createTaskAction', async (data
 })
 
 // Complete TASK
-
 export const completeTaskAction = createAsyncThunk(
   'completeTaskAction',
-  async ({ ongoing_task, completedAmount, estAmountOfWork }, { rejectWithValue }) => {
+  async ({ ongoing_task, data,completedAmount, estAmountOfWork }, { rejectWithValue }) => {
     try {
-      const data = {
-        amount_of_work: completedAmount,
-        is_completed: true,
-      };
+      
 
       const response = await axiosInstance.patch(`${TASK_URLS["task"]}${ongoing_task}/`, data);
 
@@ -74,6 +71,18 @@ export const deleteTaskAction = createAsyncThunk('deleteTaskAction', async (ongo
         console.log('delete Task actions',ongoing_task)
         const response = await axiosInstance.delete(`${TASK_URLS["task"]}${ongoing_task}/`)
         console.log('delete TAsl',response)
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(handleApiError(error));
+      }
+})
+
+// GET TASKS
+export const fetchTaskAction = createAsyncThunk('fetchTaskAction', async (_,{rejectWithValue})=>{
+    try{
+      console.log('fetch TAsl')
+        const response = await axiosInstance.get(`${TASK_URLS["task"]}`)
+        console.log('fetch TAsl',response.data)
         return response.data;
     } catch (error) {
         return rejectWithValue(handleApiError(error));

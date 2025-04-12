@@ -56,5 +56,7 @@ export const handleApiError = (error) => {
     const randomIndex = Math.floor(Math.random() * chosenArray.length);
     return chosenArray[randomIndex];
   };
-  
+
+
+
   
