@@ -25,7 +25,6 @@ const Task = () => {
   const [percentComplete, setPercentComplete] = useState(0);
   const [showCompletionDialog, setShowCompletionDialog] = useState(false);
 
-
   const [timer, setTimer] = useState(timerR || {
     seconds: 0,
     minutes: 0,
@@ -39,10 +38,12 @@ const Task = () => {
   // Handle task completion
   // used in focus task and active task completion button
   const completeTask = async () => {
-
-  
     try {
-      const response = await dispatch(completeTaskAction({ ongoing_task, completedAmount, estAmountOfWork })).unwrap(); // <-- unwrap gives you the actual payload
+      const data = {
+        amount_of_work: completedAmount,
+        is_completed: true,
+      };
+      const response = await dispatch(completeTaskAction({ ongoing_task, data,completedAmount, estAmountOfWork })).unwrap(); // <-- unwrap gives you the actual payload
       if (response) {
         setShowCompletionDialog(false);
         setShowCelebration(true);
@@ -101,6 +102,9 @@ const Task = () => {
     // Show/hide mini timer based on current step and timer status
     useEffect(() => {
       if (currentStep === 'active' && (timer.seconds > 0 || timer.minutes > 0 || timer.hours > 0)) {
+       console.log(
+        'dfdfdf'
+       )
         setShowMiniTimer(true);
       } else if (currentStep === 'focus') {
         setShowMiniTimer(false);
@@ -111,8 +115,9 @@ const Task = () => {
       const isDefaultTimer =
         timer.seconds === 0 &&
         timer.minutes === 0 &&
-        timer.hours === 0 &&
-        timer.isRunning === false;
+        timer.hours === 0 
+        // &&
+        // timer.isRunning === false;
     
       if (!isDefaultTimer) {
         console.log('kkk');

@@ -9,7 +9,6 @@ const MiniTimer = ({ timer, startTimer, pauseTimer, timerInterval }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
   
-    const [percentComplete, setPercentComplete] = useState(0);
 
     // Format timer display
     const formatTime = (time) => {
