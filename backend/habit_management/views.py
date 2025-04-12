@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Habits, Task
 from datetime import date
+
+from django.db import transaction
+
 # Create your views here.
 
 class HabitListCreateView(APIView):
@@ -97,10 +100,13 @@ class TaskListCreateView(APIView):
         serializer = TaskSerializer(tasks, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+    @transaction.atomic  # ensures both operations happen together
     def post(self, request):
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user)
+            task = serializer.save(user=request.user)
+            request.user.ongoing_task = task
+            request.user.save(update_fields=['ongoing_task'])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
