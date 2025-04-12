@@ -50,6 +50,9 @@
   .btn-accent {
     @apply btn bg-accent-500 text-white hover:bg-accent-600 focus:ring-accent-500 dark:bg-accent-600 dark:hover:bg-accent-700;
   }
+  .btn-danger {
+    @apply btn bg-rose-500 text-white hover:bg-rose-600 focus:ring-rose-500 dark:bg-rose-600 dark:hover:bg-rose-700;
+  }
   
   /* Card styles */
   .card {
@@ -131,4 +134,41 @@
     @apply absolute inset-0 bg-gradient-to-b from-transparent to-secondary-900 opacity-20 pointer-events-none content-[''] dark:to-dark-500 dark:opacity-30;
   }
 }
+
+@layer utilities {
+  .shine-input {
+    position: relative;
+    overflow: hidden;
+    background-color: theme('colors.accent.50', #ecfdf5); /* fallback */
+    box-shadow: 0 0 0 0.0em theme('colors.accent.300', #6ee7b7),
+                0 0 6px 1px theme('colors.accent.300', #6ee7b7);
+  }
+
+  .shine-input::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+      6deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
+    animation: shine 2.5s linear infinite;
+  }
+
+  /* @keyframes shine {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  } */
+}
+
+
 
