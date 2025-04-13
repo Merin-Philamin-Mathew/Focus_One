@@ -34,7 +34,6 @@ function Navbar() {
     };
   }, []);
 
-  console.log(userDetails, darkMode, 'userrrr')
 
   useEffect(() => {
     if (darkMode) {
@@ -47,6 +46,7 @@ function Navbar() {
   const handleLogout = (e) => {
     e.stopPropagation();
     setShowPopup(false);
+    
     dispatch(userLogout())
     console.log("Logging out...");
   };
