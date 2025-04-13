@@ -253,6 +253,17 @@ const Task = () => {
                 setShowCompletionDialog={setShowCompletionDialog}
               />
             )}
+
+              
+          {/* Mini Timer - Only shown when in active step and has time recorded */}
+          {showMiniTimer && currentStep === 'active' && (
+            <MiniTimer 
+              timer={timer} 
+              startTimer={startTimer} 
+              pauseTimer={pauseTimer} 
+              timerInterval={timerInterval} 
+            />
+          )}
             
             {currentStep === 'focus' && (
               <FocusMode

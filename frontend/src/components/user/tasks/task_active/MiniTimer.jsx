@@ -22,7 +22,7 @@ const MiniTimer = ({ timer, startTimer, pauseTimer, timerInterval }) => {
   
     return (
       <div 
-        className={`fixed top-[50vh] right-4 transition-all duration-300 ${
+        className={`fixed bottom-4 right-4 transition-all duration-300 ${
           isExpanded ? 'w-64 h-24' : 'w-20 h-20'
         } z-30`}
         onMouseEnter={() => setIsHovered(true)}
