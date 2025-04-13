@@ -57,7 +57,7 @@ export const completeTaskAction = createAsyncThunk(
 
       const toastMessage = getRandomMessage(messageType);
       customToast.success(toastMessage);
-
+      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(handleApiError(error));

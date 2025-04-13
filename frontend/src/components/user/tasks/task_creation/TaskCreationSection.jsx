@@ -204,7 +204,7 @@ function TaskCreationSection() {
                 </button>
                 <button 
                   type="button"
-                  onClick={() => { setEstAmountOfWorkR('30'); setWorkUnit('minutes'); }}
+                  onClick={() => { setEstAmountOfWork('30'); setWorkUnit('minutes'); }}
                   className="badge bg-secondary-100 text-secondary-700 dark:bg-secondary-800 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700"
                 >
                   30 minutes

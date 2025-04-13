@@ -71,8 +71,11 @@ const taskSlice = createSlice({
             state.completedAmount = action.payload
         },
         setTimerR: (state,action)=>{      
-            console.log(action.payload)    
             state.timerR = action.payload
+        },
+        setCompletedTasksR: (state,action)=>{      
+            console.log(action.payload)    
+            state.completedTasks = action.payload
         },
     },
 
@@ -107,12 +110,17 @@ const taskSlice = createSlice({
         })
         .addCase(completeTaskAction.pending, handlePending)
         .addCase(completeTaskAction.rejected, handleRejected)
-        .addCase(completeTaskAction.fulfilled, (state, action)=>{
+        .addCase(completeTaskAction.fulfilled, (state, action) => {
+            const completedTask = action?.payload; 
             state.success = true;
             state.loading = false;
-            state.message = action?.payload?.message
-            state.error = action?.payload?.error
+            state.message = action?.payload?.message;
+            state.error = action?.payload?.error;
+            if (completedTask) {
+                state.completedTasks.push(completedTask);
+            }
         })
+        
         .addCase(deleteTaskAction.pending, handlePending)
         .addCase(deleteTaskAction.rejected, handleRejected)
         .addCase(deleteTaskAction.fulfilled, (state, action)=>{
@@ -135,6 +143,8 @@ const taskSlice = createSlice({
 
 })
 
-export const {resetAll,setSelectedHabit,setCurrentStep,setSubTopicR,setEstAmountOfWorkR,setWorkUnitR,setOngoing_taskR,setCompletedAmountR,resetTaskR,setTimerR} = taskSlice.actions;
+export const {resetAll,setSelectedHabit,setCurrentStep,setSubTopicR,
+    setEstAmountOfWorkR,setWorkUnitR,setOngoing_taskR,setCompletedAmountR,
+    resetTaskR,setTimerR,setCompletedTasksR} = taskSlice.actions;
 export default taskSlice.reducer;
 

@@ -601,7 +601,7 @@ const TaskCreation = () => {
           <div className="absolute bottom-0 inset-x-0 flex justify-center py-3">
             <button 
               className="text-secondary-500 dark:text-secondary-400 hover:text-secondary-700 dark:hover:text-secondary-200 font-medium flex items-center text-sm transition-colors"
-              onClick={resetTask}
+              onClick={()=>setShowCompletionDialog(true)}
             >
               <X className="h-4 w-4 mr-1" />
               Exit Task

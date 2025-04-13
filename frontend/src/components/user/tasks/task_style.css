@@ -1,0 +1,55 @@
+@keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes shine {
+    from {
+      transform: translateY(-100%) rotate(45deg);
+    }
+    to {
+      transform: translateY(200%) rotate(45deg);
+    }
+  }
+  
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  
+  /* Add any other Home component specific styles here */
+  .completed-task-enter {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  
+  .completed-task-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms, transform 300ms;
+  }
+  
+  .focus-transition {
+    transition: all 0.3s ease-in-out;
+  }

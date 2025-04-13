@@ -7,7 +7,7 @@ function CompletionTaskDialog({deleteTask, completeTask, percentComplete, setSho
     const { estAmountOfWork, workUnit, completedAmount } = useSelector((state) => state.tasks);
 
     return (
-    <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 p-4">
+    <div className="fixed max-h-screen inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 p-4">
     <div className="bg-white dark:bg-dark-200 rounded-xl shadow-xl max-w-md w-full p-6 relative animate-fadeIn">
       <button 
         onClick={() => setShowCompletionDialog(false)}
