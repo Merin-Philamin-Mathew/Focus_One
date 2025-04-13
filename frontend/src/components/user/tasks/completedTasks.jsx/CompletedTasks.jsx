@@ -1,67 +1,11 @@
-import { useState, useEffect } from 'react';
-import { CheckCircle, Clock, X, Target, Award, ChevronRight } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import Task from './tasks/Task';
+import { Award, CheckCircle, Clock, Target } from 'lucide-react'
+import React from 'react'
 
-function Home() {
-  const [showCompleted, setShowCompleted] = useState(false);
-  const [animating, setAnimating] = useState(false);
-  const { error, message } = useSelector((state) => state.tasks);  
-  const { completedTasks } = useSelector((state) => state.tasks);
-  
-  // Handle animation timing
-  const handleToggleCompleted = () => {
-    setAnimating(true);
-    setTimeout(() => {
-      setShowCompleted(!showCompleted);
-      setTimeout(() => setAnimating(false), 50);
-    }, 300);
-  };
-
+function CompletedTasks({completedTasks}) {
   return (
-    <div className="min-h-screen py-6 px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Friendly greeting with today's date */}
-        <header className="mb-8 text-center">
-          <h1 
-            onClick={handleToggleCompleted}
-            className="text-2xl font-heading font-bold text-primary-700 dark:text-primary-300 cursor-pointer hover:scale-105 transition-transform duration-300"
-          >
-            Today's Focus
-          </h1>
-          <p className="text-secondary-600 dark:text-secondary-400">
-            {new Date().toLocaleDateString('en-US', { 
-              weekday: 'long', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
-          </p>
-        </header>
-
-        <div 
-          className={`grid gap-6 transition-all duration-500 ease-in-out ${
-            animating ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
-          } ${
-            showCompleted 
-              ? 'grid-cols-1 md:grid-cols-2' 
-              : 'grid-cols-1 justify-items-center'
-          }`}
-        >
-          {/* Current Task Area - Always visible with animation */}
-          <div 
-            className={`w-full transition-all duration-500 ease-in-out ${
-              showCompleted 
-                ? 'max-w-full transform-none' 
-                : 'max-w-lg transform hover:translate-y-1'
-            }`}
-          >
-            <Task />
-          </div>
-
-          {/* Today's Completed Tasks */}
-          {showCompleted && (
-            <div 
-              className="w-full animate-slide-in"
+    <div 
+              
+    className="w-full animate-slide-in py-8 px-12"
               style={{
                 animation: 'slideIn 0.5s ease-out forwards'
               }}
@@ -124,36 +68,7 @@ function Home() {
                 </div>
               </div>
             </div>
-          )}
-        </div>
-      </div>
-
-      {/* Add keyframes for animations */}
-      <style jsx>{`
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: translateX(50px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
-    </div>
-  );
+  )
 }
 
-export default Home;
+export default CompletedTasks

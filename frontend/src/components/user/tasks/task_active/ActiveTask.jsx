@@ -124,7 +124,7 @@ function ActiveTask({completeTask,startTimer, percentComplete, setShowCompletion
               type="button"
               onClick={() => {
                 const current = parseFloat(completedAmount) || 0;
-                const updated = (current + 1).toString();
+                const updated = (current + 15).toString();
                 setCompletedAmount(updated);
               }}
               className="badge bg-secondary-100 text-secondary-700 dark:bg-secondary-800 dark:text-secondary-300 hover:bg-secondary-200"

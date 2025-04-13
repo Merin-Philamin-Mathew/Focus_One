@@ -125,6 +125,7 @@ class TaskRetrieveUpdateDestroyView(APIView):
         serializer = TaskSerializer(task)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+    @transaction.atomic  # ensures both operations happen together
     def patch(self, request, pk):
         try:
             task = Task.objects.select_related('habit').get(pk=pk, user=request.user)
@@ -133,9 +134,23 @@ class TaskRetrieveUpdateDestroyView(APIView):
         serializer = TaskSerializer(task, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
+            clear_ongoing_task_if_matched(request.user,request.data, pk)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+def clear_ongoing_task_if_matched(user, data, task_id):
+    print(data)
+    if (
+        user.ongoing_task
+        and user.ongoing_task.id == task_id
+        and 'is_completed' in data
+        and data['is_completed'] is True
+    ):
+        user.ongoing_task = None
+        user.save(update_fields=['ongoing_task'])
+
+
+
     def delete(self, request, pk):
         try:
             task = Task.objects.get(pk=pk, user=request.user)
