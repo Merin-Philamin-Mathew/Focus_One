@@ -43,11 +43,19 @@ function Navbar() {
     }
   }, [darkMode]);
 
-  const handleLogout = (e) => {
+  const handleLogout = async (e) => {
     e.stopPropagation();
     setShowPopup(false);
-    
-    dispatch(userLogout())
+    try{
+      const response = await dispatch(userLogout()).unwrap()
+      console.log('logout from frontend',response)
+      if (response.statusText == 'OK'){
+        console.log('logout successfulll')
+      }
+    }
+    catch(err){
+
+    }
     console.log("Logging out...");
   };
 

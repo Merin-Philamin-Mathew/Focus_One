@@ -24,7 +24,8 @@ export const userSignup = createAsyncThunk('userSignup', async (data, {rejectWit
 export const userLogout = createAsyncThunk('userLogout', async (_, {rejectWithValue})=>{
     try{
         const response = await axiosInstance.post(AUTHENTICATION.logout, _)
-        return response.data;
+        console.log(response, 'loguot from action')
+        return response;
     }catch(error){
         return rejectWithValue(error?.response?.data);
     }
